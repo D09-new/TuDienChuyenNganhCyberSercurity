@@ -107,19 +107,23 @@ namespace TuDienChuyenNganhCyberSecurity
         {
             try
             {
-                position = cmbTuDayDu.SelectedIndex;
                 if (!Program.ComboBoxCoGiaTri(cmbTuDayDu, "TuDayDu", cmbTuDayDu.Text) || !Program.ComboBoxCoGiaTri(cmbTuVietTat, "TuVietTat", cmbTuVietTat.Text))
                 {
                     MessageBox.Show("Từ bạn nhập không tồn tại trong từ điển.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNoiDung.Clear();
+                    txtGhiChu.Clear();
                     return;
                 }
                 if (cmbTuDayDu.SelectedIndex == -1 || cmbTuVietTat.SelectedIndex == -1)
                 {
                     MessageBox.Show("Vui lòng chọn từ cần tra cứu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNoiDung.Clear();
+                    txtGhiChu.Clear();
                     return;
                 }
-                txtGhiChu.Enabled = false;
-                txtNoiDung.Enabled = false;
+                position = cmbTuDayDu.SelectedIndex;
+                txtGhiChu.ReadOnly = true;
+                txtNoiDung.ReadOnly = true;
                 DataRowView row = bds_dstudaydu[cmbTuDayDu.SelectedIndex] as DataRowView;
                 GanNoiDungRichTextBox(txtNoiDung, row["NoiDung"]);
                 GanNoiDungRichTextBox(txtGhiChu, row["GhiChu"]);
@@ -228,8 +232,8 @@ namespace TuDienChuyenNganhCyberSecurity
         {
             cmbTuDayDu.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cmbTuVietTat.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            txtNoiDung.Enabled = false;
-            txtGhiChu.Enabled = false;
+            txtGhiChu.ReadOnly = true;
+            txtNoiDung.ReadOnly = true;
             if (position != -1)
             {
                 cmbTuDayDu.SelectedIndex = position;
@@ -262,12 +266,12 @@ namespace TuDienChuyenNganhCyberSecurity
                 position = cmbTuDayDu.SelectedIndex;
                 txtNoiDung.Clear();
                 txtGhiChu.Clear();
-                cmbTuDayDu.Focus();
+                cmbTuVietTat.Focus();
             }
             isAdd = true;
             btnTraCuu.Enabled = btnCapNhat.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnThoat.Enabled = false;
-            txtNoiDung.Enabled = true;
-            txtGhiChu.Enabled = true;
+            txtGhiChu.ReadOnly = false;
+            txtNoiDung.ReadOnly = false;
             cmbTuDayDu.AutoCompleteMode = AutoCompleteMode.None;
             cmbTuVietTat.AutoCompleteMode = AutoCompleteMode.None;
             cmbTuDayDu.SelectedIndex = -1;
@@ -285,7 +289,7 @@ namespace TuDienChuyenNganhCyberSecurity
                 MessageBox.Show("Vui lòng chọn từ cần cập nhật.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (!isUpdate) 
+            if (!isUpdate)
             {
                 TraCuu();
             }
@@ -293,8 +297,8 @@ namespace TuDienChuyenNganhCyberSecurity
             btnTraCuu.Enabled = btnThem.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnThoat.Enabled = false;
             tudaydu = cmbTuDayDu.Text.Trim();
             tuviettat = cmbTuVietTat.Text.Trim();
-            txtNoiDung.Enabled = true;
-            txtGhiChu.Enabled = true;
+            txtGhiChu.ReadOnly = false;
+            txtNoiDung.ReadOnly = false;
             cmbTuDayDu.AutoCompleteMode = AutoCompleteMode.None;
             cmbTuVietTat.AutoCompleteMode = AutoCompleteMode.None;
         }
@@ -339,8 +343,8 @@ namespace TuDienChuyenNganhCyberSecurity
                     Reload();
                     cmbTuDayDu.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     cmbTuVietTat.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    txtNoiDung.Enabled = false;
-                    txtGhiChu.Enabled = false;
+                    txtGhiChu.ReadOnly = true;
+                    txtNoiDung.ReadOnly = true;
                     btnTraCuu.Enabled = btnCapNhat.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnThoat.Enabled = true;
                 }
                 catch (SqlException ex)
@@ -398,8 +402,8 @@ namespace TuDienChuyenNganhCyberSecurity
                         Reload();
                         cmbTuDayDu.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         cmbTuVietTat.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        txtNoiDung.Enabled = false;
-                        txtGhiChu.Enabled = false;
+                        txtGhiChu.ReadOnly = true;
+                        txtNoiDung.ReadOnly = true;
                         btnTraCuu.Enabled = btnThem.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnThoat.Enabled = true;
                     }
                 }
@@ -428,10 +432,11 @@ namespace TuDienChuyenNganhCyberSecurity
                 MessageBox.Show("Vui lòng chọn từ để xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if(MessageBox.Show("Bạn có chắc chắn muốn xóa từ này không? Hành động này không thể hoàn tác!", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa từ này không? Hành động này không thể hoàn tác!", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 try
-                {   position = cmbTuDayDu.SelectedIndex;
+                {
+                    position = cmbTuDayDu.SelectedIndex;
                     using (SqlCommand cmd = new SqlCommand("SP_XOA", Program.conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -446,6 +451,44 @@ namespace TuDienChuyenNganhCyberSecurity
                 catch (SqlException ex)
                 {
                     MessageBox.Show("Lỗi " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void txtNoiDung_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                e.SuppressKeyPress = true; // Chặn lệnh paste mặc định
+
+                if (Clipboard.ContainsText())
+                {
+                    string clipboardText = Clipboard.GetText();
+
+                    // Đã cập nhật: Cấu hình font Times New Roman, Size 12, FontStyle.Regular cho đoạn sắp dán
+                    txtNoiDung.SelectionFont = new Font("Times New Roman", 12, FontStyle.Regular);
+
+                    // Chèn đoạn text vào
+                    txtNoiDung.SelectedText = clipboardText;
+                }
+            }
+        }
+
+        private void txtGhiChu_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                e.SuppressKeyPress = true; // Chặn lệnh paste mặc định
+
+                if (Clipboard.ContainsText())
+                {
+                    string clipboardText = Clipboard.GetText();
+
+                    // Đã cập nhật: Cấu hình font Times New Roman, Size 12, FontStyle.Regular cho đoạn sắp dán
+                    txtGhiChu.SelectionFont = new Font("Times New Roman", 12, FontStyle.Regular);
+
+                    // Chèn đoạn text vào
+                    txtGhiChu.SelectedText = clipboardText;
                 }
             }
         }

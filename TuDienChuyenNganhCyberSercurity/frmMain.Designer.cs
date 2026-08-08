@@ -243,13 +243,13 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 44);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1401, 42);
+            panel1.Size = new Size(1401, 39);
             panel1.TabIndex = 100;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(562, 10);
+            label2.Location = new Point(6, 6);
             label2.Name = "label2";
             label2.Size = new Size(101, 25);
             label2.TabIndex = 100;
@@ -258,7 +258,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(4, 10);
+            label1.Location = new Point(323, 6);
             label1.Name = "label1";
             label1.Size = new Size(98, 25);
             label1.TabIndex = 100;
@@ -267,27 +267,27 @@
             // cmbTuVietTat
             // 
             cmbTuVietTat.FormattingEnabled = true;
-            cmbTuVietTat.Location = new Point(666, 6);
+            cmbTuVietTat.Location = new Point(110, 3);
             cmbTuVietTat.Name = "cmbTuVietTat";
             cmbTuVietTat.Size = new Size(194, 33);
-            cmbTuVietTat.TabIndex = 2;
+            cmbTuVietTat.TabIndex = 1;
             cmbTuVietTat.SelectionChangeCommitted += cmbTuVietTat_SelectionChangeCommitted;
             cmbTuVietTat.Leave += cmbTuVietTat_Leave;
             // 
             // cmbTuDayDu
             // 
             cmbTuDayDu.FormattingEnabled = true;
-            cmbTuDayDu.Location = new Point(108, 6);
+            cmbTuDayDu.Location = new Point(427, 3);
             cmbTuDayDu.Name = "cmbTuDayDu";
-            cmbTuDayDu.Size = new Size(417, 33);
-            cmbTuDayDu.TabIndex = 1;
+            cmbTuDayDu.Size = new Size(579, 33);
+            cmbTuDayDu.TabIndex = 2;
             cmbTuDayDu.SelectionChangeCommitted += cmbTuDayDu_SelectionChangeCommitted;
             cmbTuDayDu.Leave += cmbTuDayDu_Leave;
             // 
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(0, 86);
+            splitContainer1.Location = new Point(0, 83);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -299,8 +299,8 @@
             // 
             splitContainer1.Panel2.Controls.Add(txtGhiChu);
             splitContainer1.Panel2.Controls.Add(panel3);
-            splitContainer1.Size = new Size(1401, 654);
-            splitContainer1.SplitterDistance = 861;
+            splitContainer1.Size = new Size(1401, 657);
+            splitContainer1.SplitterDistance = 783;
             splitContainer1.TabIndex = 100;
             splitContainer1.TabStop = false;
             // 
@@ -310,9 +310,10 @@
             txtNoiDung.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtNoiDung.Location = new Point(0, 40);
             txtNoiDung.Name = "txtNoiDung";
-            txtNoiDung.Size = new Size(861, 614);
+            txtNoiDung.Size = new Size(783, 617);
             txtNoiDung.TabIndex = 3;
             txtNoiDung.Text = "";
+            txtNoiDung.KeyDown += txtNoiDung_KeyDown;
             // 
             // panel2
             // 
@@ -321,7 +322,7 @@
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(861, 40);
+            panel2.Size = new Size(783, 40);
             panel2.TabIndex = 100;
             // 
             // label3
@@ -329,7 +330,7 @@
             label3.Anchor = AnchorStyles.None;
             label3.AutoSize = true;
             label3.BackColor = Color.White;
-            label3.Location = new Point(376, 7);
+            label3.Location = new Point(337, 7);
             label3.Name = "label3";
             label3.Size = new Size(104, 25);
             label3.TabIndex = 0;
@@ -341,9 +342,10 @@
             txtGhiChu.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtGhiChu.Location = new Point(0, 40);
             txtGhiChu.Name = "txtGhiChu";
-            txtGhiChu.Size = new Size(536, 614);
+            txtGhiChu.Size = new Size(614, 617);
             txtGhiChu.TabIndex = 4;
             txtGhiChu.Text = "";
+            txtGhiChu.KeyDown += txtGhiChu_KeyDown;
             // 
             // panel3
             // 
@@ -352,7 +354,7 @@
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(536, 40);
+            panel3.Size = new Size(614, 40);
             panel3.TabIndex = 100;
             // 
             // label4
@@ -360,7 +362,7 @@
             label4.Anchor = AnchorStyles.None;
             label4.AutoSize = true;
             label4.BackColor = Color.White;
-            label4.Location = new Point(224, 7);
+            label4.Location = new Point(263, 7);
             label4.Name = "label4";
             label4.Size = new Size(88, 25);
             label4.TabIndex = 0;
@@ -377,7 +379,7 @@
             Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Margin = new Padding(4);
             Name = "frmMain";
-            Text = "Từ điển chuyên ngành";
+            Text = "Từ điển chuyên ngành Cyber Security";
             Load += frmMain_Load;
             flowPanel.ResumeLayout(false);
             panel1.ResumeLayout(false);
