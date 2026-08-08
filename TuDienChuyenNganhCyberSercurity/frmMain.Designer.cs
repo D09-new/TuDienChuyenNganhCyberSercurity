@@ -38,6 +38,7 @@
             btnLuu = new Button();
             btnTaiLai = new Button();
             btnXoa = new Button();
+            btnPhucHoi = new Button();
             btnThoat = new Button();
             panel1 = new Panel();
             label2 = new Label();
@@ -72,13 +73,14 @@
             flowPanel.Controls.Add(btnLuu);
             flowPanel.Controls.Add(btnTaiLai);
             flowPanel.Controls.Add(btnXoa);
+            flowPanel.Controls.Add(btnPhucHoi);
             flowPanel.Controls.Add(btnThoat);
             flowPanel.Dock = DockStyle.Top;
             flowPanel.Location = new Point(0, 0);
             flowPanel.Margin = new Padding(4);
             flowPanel.Name = "flowPanel";
             flowPanel.Size = new Size(1401, 44);
-            flowPanel.TabIndex = 0;
+            flowPanel.TabIndex = 100;
             // 
             // btnTraCuu
             // 
@@ -90,7 +92,8 @@
             btnTraCuu.Margin = new Padding(4);
             btnTraCuu.Name = "btnTraCuu";
             btnTraCuu.Size = new Size(109, 32);
-            btnTraCuu.TabIndex = 1;
+            btnTraCuu.TabIndex = 20;
+            btnTraCuu.TabStop = false;
             btnTraCuu.Text = "Tra cứu";
             btnTraCuu.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnTraCuu.UseVisualStyleBackColor = true;
@@ -108,6 +111,7 @@
             imageList1.Images.SetKeyName(4, "Delete.png");
             imageList1.Images.SetKeyName(5, "Exit.png");
             imageList1.Images.SetKeyName(6, "Reload.png");
+            imageList1.Images.SetKeyName(7, "Rollback.png");
             // 
             // btnThem
             // 
@@ -119,7 +123,8 @@
             btnThem.Margin = new Padding(4);
             btnThem.Name = "btnThem";
             btnThem.Size = new Size(149, 32);
-            btnThem.TabIndex = 0;
+            btnThem.TabIndex = 21;
+            btnThem.TabStop = false;
             btnThem.Text = "Thêm từ mới";
             btnThem.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnThem.UseVisualStyleBackColor = true;
@@ -135,10 +140,12 @@
             btnCapNhat.Margin = new Padding(4);
             btnCapNhat.Name = "btnCapNhat";
             btnCapNhat.Size = new Size(120, 32);
-            btnCapNhat.TabIndex = 0;
+            btnCapNhat.TabIndex = 22;
+            btnCapNhat.TabStop = false;
             btnCapNhat.Text = "Cập nhật";
             btnCapNhat.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnCapNhat.UseVisualStyleBackColor = true;
+            btnCapNhat.Click += btnCapNhat_Click;
             // 
             // btnLuu
             // 
@@ -150,10 +157,12 @@
             btnLuu.Margin = new Padding(4);
             btnLuu.Name = "btnLuu";
             btnLuu.Size = new Size(84, 32);
-            btnLuu.TabIndex = 0;
+            btnLuu.TabIndex = 23;
+            btnLuu.TabStop = false;
             btnLuu.Text = "Lưu";
             btnLuu.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnLuu.UseVisualStyleBackColor = true;
+            btnLuu.Click += btnLuu_Click;
             // 
             // btnTaiLai
             // 
@@ -165,7 +174,8 @@
             btnTaiLai.Margin = new Padding(4);
             btnTaiLai.Name = "btnTaiLai";
             btnTaiLai.Size = new Size(97, 32);
-            btnTaiLai.TabIndex = 2;
+            btnTaiLai.TabIndex = 24;
+            btnTaiLai.TabStop = false;
             btnTaiLai.Text = "Tải lại";
             btnTaiLai.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnTaiLai.UseVisualStyleBackColor = true;
@@ -181,10 +191,29 @@
             btnXoa.Margin = new Padding(4);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(81, 32);
-            btnXoa.TabIndex = 0;
+            btnXoa.TabIndex = 25;
+            btnXoa.TabStop = false;
             btnXoa.Text = "Xóa";
             btnXoa.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
+            // 
+            // btnPhucHoi
+            // 
+            btnPhucHoi.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnPhucHoi.ImageAlign = ContentAlignment.MiddleRight;
+            btnPhucHoi.ImageIndex = 7;
+            btnPhucHoi.ImageList = imageList1;
+            btnPhucHoi.Location = new Point(692, 4);
+            btnPhucHoi.Margin = new Padding(4);
+            btnPhucHoi.Name = "btnPhucHoi";
+            btnPhucHoi.Size = new Size(113, 32);
+            btnPhucHoi.TabIndex = 26;
+            btnPhucHoi.TabStop = false;
+            btnPhucHoi.Text = "Phục hồi";
+            btnPhucHoi.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnPhucHoi.UseVisualStyleBackColor = true;
+            btnPhucHoi.Click += btnPhucHoi_Click;
             // 
             // btnThoat
             // 
@@ -192,11 +221,12 @@
             btnThoat.ImageAlign = ContentAlignment.MiddleRight;
             btnThoat.ImageIndex = 5;
             btnThoat.ImageList = imageList1;
-            btnThoat.Location = new Point(692, 4);
+            btnThoat.Location = new Point(813, 4);
             btnThoat.Margin = new Padding(4);
             btnThoat.Name = "btnThoat";
             btnThoat.Size = new Size(97, 32);
-            btnThoat.TabIndex = 0;
+            btnThoat.TabIndex = 27;
+            btnThoat.TabStop = false;
             btnThoat.Text = "Thoát";
             btnThoat.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnThoat.UseVisualStyleBackColor = true;
@@ -214,15 +244,15 @@
             panel1.Location = new Point(0, 44);
             panel1.Name = "panel1";
             panel1.Size = new Size(1401, 42);
-            panel1.TabIndex = 1;
+            panel1.TabIndex = 100;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(459, 10);
+            label2.Location = new Point(562, 10);
             label2.Name = "label2";
             label2.Size = new Size(101, 25);
-            label2.TabIndex = 1;
+            label2.TabIndex = 100;
             label2.Text = "Từ viết tắt";
             // 
             // label1
@@ -231,16 +261,16 @@
             label1.Location = new Point(4, 10);
             label1.Name = "label1";
             label1.Size = new Size(98, 25);
-            label1.TabIndex = 1;
+            label1.TabIndex = 100;
             label1.Text = "Từ đầy đủ";
             // 
             // cmbTuVietTat
             // 
             cmbTuVietTat.FormattingEnabled = true;
-            cmbTuVietTat.Location = new Point(563, 6);
+            cmbTuVietTat.Location = new Point(666, 6);
             cmbTuVietTat.Name = "cmbTuVietTat";
-            cmbTuVietTat.Size = new Size(123, 33);
-            cmbTuVietTat.TabIndex = 0;
+            cmbTuVietTat.Size = new Size(194, 33);
+            cmbTuVietTat.TabIndex = 2;
             cmbTuVietTat.SelectionChangeCommitted += cmbTuVietTat_SelectionChangeCommitted;
             cmbTuVietTat.Leave += cmbTuVietTat_Leave;
             // 
@@ -249,8 +279,8 @@
             cmbTuDayDu.FormattingEnabled = true;
             cmbTuDayDu.Location = new Point(108, 6);
             cmbTuDayDu.Name = "cmbTuDayDu";
-            cmbTuDayDu.Size = new Size(320, 33);
-            cmbTuDayDu.TabIndex = 0;
+            cmbTuDayDu.Size = new Size(417, 33);
+            cmbTuDayDu.TabIndex = 1;
             cmbTuDayDu.SelectionChangeCommitted += cmbTuDayDu_SelectionChangeCommitted;
             cmbTuDayDu.Leave += cmbTuDayDu_Leave;
             // 
@@ -271,7 +301,8 @@
             splitContainer1.Panel2.Controls.Add(panel3);
             splitContainer1.Size = new Size(1401, 654);
             splitContainer1.SplitterDistance = 861;
-            splitContainer1.TabIndex = 2;
+            splitContainer1.TabIndex = 100;
+            splitContainer1.TabStop = false;
             // 
             // txtNoiDung
             // 
@@ -280,7 +311,7 @@
             txtNoiDung.Location = new Point(0, 40);
             txtNoiDung.Name = "txtNoiDung";
             txtNoiDung.Size = new Size(861, 614);
-            txtNoiDung.TabIndex = 1;
+            txtNoiDung.TabIndex = 3;
             txtNoiDung.Text = "";
             // 
             // panel2
@@ -291,7 +322,7 @@
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
             panel2.Size = new Size(861, 40);
-            panel2.TabIndex = 0;
+            panel2.TabIndex = 100;
             // 
             // label3
             // 
@@ -307,10 +338,11 @@
             // txtGhiChu
             // 
             txtGhiChu.Dock = DockStyle.Fill;
+            txtGhiChu.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtGhiChu.Location = new Point(0, 40);
             txtGhiChu.Name = "txtGhiChu";
             txtGhiChu.Size = new Size(536, 614);
-            txtGhiChu.TabIndex = 1;
+            txtGhiChu.TabIndex = 4;
             txtGhiChu.Text = "";
             // 
             // panel3
@@ -321,7 +353,7 @@
             panel3.Location = new Point(0, 0);
             panel3.Name = "panel3";
             panel3.Size = new Size(536, 40);
-            panel3.TabIndex = 0;
+            panel3.TabIndex = 100;
             // 
             // label4
             // 
@@ -385,5 +417,6 @@
         private RichTextBox txtNoiDung;
         private RichTextBox txtGhiChu;
         private Button btnTaiLai;
+        private Button btnPhucHoi;
     }
 }
