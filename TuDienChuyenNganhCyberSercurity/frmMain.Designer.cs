@@ -1,4 +1,4 @@
-﻿namespace TuDienChuyenNganhCyberSercurity
+﻿namespace TuDienChuyenNganhCyberSecurity
 {
     partial class frmMain
     {
@@ -123,6 +123,7 @@
             btnThem.Text = "Thêm từ mới";
             btnThem.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnThem.UseVisualStyleBackColor = true;
+            btnThem.Click += btnThem_Click;
             // 
             // btnCapNhat
             // 
@@ -168,6 +169,7 @@
             btnTaiLai.Text = "Tải lại";
             btnTaiLai.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnTaiLai.UseVisualStyleBackColor = true;
+            btnTaiLai.Click += btnTaiLai_Click;
             // 
             // btnXoa
             // 
@@ -198,6 +200,7 @@
             btnThoat.Text = "Thoát";
             btnThoat.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // panel1
             // 
@@ -238,6 +241,8 @@
             cmbTuVietTat.Name = "cmbTuVietTat";
             cmbTuVietTat.Size = new Size(123, 33);
             cmbTuVietTat.TabIndex = 0;
+            cmbTuVietTat.SelectionChangeCommitted += cmbTuVietTat_SelectionChangeCommitted;
+            cmbTuVietTat.Leave += cmbTuVietTat_Leave;
             // 
             // cmbTuDayDu
             // 
@@ -246,6 +251,8 @@
             cmbTuDayDu.Name = "cmbTuDayDu";
             cmbTuDayDu.Size = new Size(320, 33);
             cmbTuDayDu.TabIndex = 0;
+            cmbTuDayDu.SelectionChangeCommitted += cmbTuDayDu_SelectionChangeCommitted;
+            cmbTuDayDu.Leave += cmbTuDayDu_Leave;
             // 
             // splitContainer1
             // 

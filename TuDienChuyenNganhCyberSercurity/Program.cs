@@ -2,7 +2,7 @@ using System.Windows.Forms;
 using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
-namespace TuDienChuyenNganhCyberSercurity
+namespace TuDienChuyenNganhCyberSecurity
 {
     internal static class Program
     {
@@ -43,6 +43,7 @@ namespace TuDienChuyenNganhCyberSercurity
 
             return false;
         }
+        [STAThread]
         static void Main()
         {
             // To customize application configuration such as set high DPI settings or default font,

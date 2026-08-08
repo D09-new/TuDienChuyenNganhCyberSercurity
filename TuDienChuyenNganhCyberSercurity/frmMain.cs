@@ -1,10 +1,12 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
-namespace TuDienChuyenNganhCyberSercurity
+namespace TuDienChuyenNganhCyberSecurity
 {
     public partial class frmMain : Form
     {
-        public static BindingSource bds_dstu = new BindingSource();
+        public static BindingSource bds_dstudaydu = new BindingSource();
+        public static BindingSource bds_dstuviettat = new BindingSource();
+        int position = -1;
         public frmMain()
         {
             InitializeComponent();
@@ -16,27 +18,39 @@ namespace TuDienChuyenNganhCyberSercurity
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            string query = "SELECT * FROM TUDIEN";
-            DataTable dt = new DataTable();
-            Program.KetNoi();
-            SqlDataAdapter da = new SqlDataAdapter(query, Program.conn);
-            da.Fill(dt);
-            bds_dstu.DataSource = dt;
-            cmbTuDayDu.DataSource = bds_dstu;
-            cmbTuDayDu.DisplayMember = "TuDayDu";
-            cmbTuDayDu.ValueMember = "ID";
-            cmbTuDayDu.SelectedIndex = -1;
-            cmbTuVietTat.DataSource = bds_dstu;
-            cmbTuVietTat.DisplayMember = "TuVietTat";
-            cmbTuVietTat.ValueMember = "ID";
-            cmbTuVietTat.SelectedIndex = -1;
+            try
+            {
+                Program.KetNoi();
+                using (SqlCommand cmd = new SqlCommand("SP_XEM", Program.conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    bds_dstudaydu.DataSource = dt;
+                    bds_dstuviettat.DataSource = dt;
+                    cmbTuDayDu.DataSource = bds_dstudaydu;
+                    cmbTuDayDu.DisplayMember = "TuDayDu";
+                    cmbTuDayDu.ValueMember = "ID";
+                    cmbTuDayDu.SelectedIndex = -1;
+                    cmbTuVietTat.DataSource = bds_dstuviettat;
+                    cmbTuVietTat.DisplayMember = "TuVietTat";
+                    cmbTuVietTat.ValueMember = "ID";
+                    cmbTuVietTat.SelectedIndex = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi khi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnTraCuu_Click(object sender, EventArgs e)
         {
             try
             {
-                if(!Program.ComboBoxCoGiaTri(cmbTuDayDu, "TuDayDu", cmbTuDayDu.Text) || !Program.ComboBoxCoGiaTri(cmbTuVietTat, "TuVietTat", cmbTuVietTat.Text))
+                position = cmbTuDayDu.SelectedIndex;
+                if (!Program.ComboBoxCoGiaTri(cmbTuDayDu, "TuDayDu", cmbTuDayDu.Text) || !Program.ComboBoxCoGiaTri(cmbTuVietTat, "TuVietTat", cmbTuVietTat.Text))
                 {
                     MessageBox.Show("Từ bạn nhập không tồn tại trong từ điển.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -46,30 +60,134 @@ namespace TuDienChuyenNganhCyberSercurity
                     MessageBox.Show("Vui lòng chọn từ cần tra cứu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                DataRowView row = bds_dstu[bds_dstu.Position] as DataRowView;
-                if (row["NoiDung"] != DBNull.Value && !string.IsNullOrEmpty(row["NoiDung"].ToString()))
-                {
-                    txtNoiDung.Rtf = row["NoiDung"].ToString();
-                }
-                else
-                {
-                    txtNoiDung.Clear(); // Nếu trống thì xóa trắng ô nhập liệu
-                }
 
-                // Kiểm tra và gán cho txtGhiChu
-                if (row["GhiChu"] != DBNull.Value && !string.IsNullOrEmpty(row["GhiChu"].ToString()))
-                {
-                    txtGhiChu.Rtf = row["GhiChu"].ToString();
-                }
-                else
-                {
-                    txtGhiChu.Clear();
-                }
+                DataRowView row = bds_dstudaydu[cmbTuDayDu.SelectedIndex] as DataRowView;
+                GanNoiDungRichTextBox(txtNoiDung, row["NoiDung"]);
+
+                GanNoiDungRichTextBox(txtGhiChu, row["GhiChu"]);
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GanNoiDungRichTextBox(
+           RichTextBox richTextBox,
+           object giaTri)
+        {
+            if (giaTri == null ||
+                giaTri == DBNull.Value ||
+                string.IsNullOrWhiteSpace(giaTri.ToString()))
+            {
+                richTextBox.Clear();
+                return;
+            }
+
+            string noiDung = giaTri.ToString();
+
+            try
+            {
+                /*
+                 * Nếu dữ liệu là chuỗi RTF hợp lệ,
+                 * giữ nguyên định dạng.
+                 */
+                richTextBox.Rtf = noiDung;
+            }
+            catch (ArgumentException)
+            {
+                /*
+                 * Nếu dữ liệu chỉ là văn bản thường,
+                 * hiển thị bằng thuộc tính Text.
+                 */
+                richTextBox.Text = noiDung;
+            }
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbTuDayDu_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            cmbTuVietTat.SelectedIndex = cmbTuDayDu.SelectedIndex;
+        }
+
+        private void cmbTuVietTat_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            cmbTuDayDu.SelectedIndex = cmbTuVietTat.SelectedIndex;
+        }
+
+        private void cmbTuDayDu_Leave(object sender, EventArgs e)
+        {
+            int index = cmbTuDayDu.FindStringExact(cmbTuDayDu.Text.Trim());
+            if (index != -1)
+            {
+                cmbTuDayDu.SelectedIndex = index;
+                cmbTuVietTat.SelectedIndex = index;
+            }
+            else
+            {
+                cmbTuDayDu.SelectedIndex = -1;
+                cmbTuVietTat.SelectedIndex = -1;
+            }
+        }
+
+        private void cmbTuVietTat_Leave(object sender, EventArgs e)
+        {
+            int index = cmbTuVietTat.FindStringExact(cmbTuVietTat.Text.Trim());
+            if (index != -1)
+            {
+                cmbTuDayDu.SelectedIndex = index;
+                cmbTuVietTat.SelectedIndex = index;
+            }
+            else
+            {
+                cmbTuDayDu.SelectedIndex = -1;
+                cmbTuVietTat.SelectedIndex = -1;
+            }
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc chắn muốn thoát không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                this.Close();
+        }
+
+        private void btnTaiLai_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Program.KetNoi();
+                using (SqlCommand cmd = new SqlCommand("SP_XEM", Program.conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    bds_dstudaydu.DataSource = dt;
+                    bds_dstuviettat.DataSource = dt;
+                    cmbTuDayDu.DataSource = bds_dstudaydu;
+                    cmbTuDayDu.DisplayMember = "TuDayDu";
+                    cmbTuDayDu.ValueMember = "ID";
+                    cmbTuDayDu.SelectedIndex = position;
+                    cmbTuVietTat.DataSource = bds_dstuviettat;
+                    cmbTuVietTat.DisplayMember = "TuVietTat";
+                    cmbTuVietTat.ValueMember = "ID";
+                    cmbTuVietTat.SelectedIndex = position;
+                    if(position != -1)
+                    {
+                        DataRowView row = bds_dstudaydu[cmbTuDayDu.SelectedIndex] as DataRowView;
+                        GanNoiDungRichTextBox(txtNoiDung, row["NoiDung"]);
+                        GanNoiDungRichTextBox(txtGhiChu, row["GhiChu"]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi khi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
