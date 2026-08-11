@@ -2,6 +2,7 @@ using System.Windows.Forms;
 using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Runtime.CompilerServices;
 namespace TuDienChuyenNganhCyberSecurity
 {
     internal static class Program
@@ -74,7 +75,9 @@ namespace TuDienChuyenNganhCyberSecurity
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new frmMain());
+            frmMain mainForm = new frmMain();
+            mainForm.WindowState = FormWindowState.Maximized;
+            Application.Run(mainForm);
         }
     }
 }
