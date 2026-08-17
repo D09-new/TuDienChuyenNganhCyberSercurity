@@ -30,11 +30,11 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             flowPanel = new FlowLayoutPanel();
             btnTraCuu = new Button();
             imageList1 = new ImageList(components);
@@ -64,6 +64,8 @@
             NOIDUNG = new DataGridViewTextBoxColumn();
             GHICHU = new DataGridViewTextBoxColumn();
             LINHVUC = new DataGridViewTextBoxColumn();
+            CreatedDate = new DataGridViewTextBoxColumn();
+            ModifiedDate = new DataGridViewTextBoxColumn();
             panel2 = new Panel();
             label3 = new Label();
             panelLoc = new Panel();
@@ -411,33 +413,33 @@
             dgvDSTU.BackgroundColor = SystemColors.GradientActiveCaption;
             dgvDSTU.BorderStyle = BorderStyle.Fixed3D;
             dgvDSTU.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.LightSkyBlue;
-            dataGridViewCellStyle1.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = Color.LightSkyBlue;
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvDSTU.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = Color.LightSkyBlue;
+            dataGridViewCellStyle6.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = Color.LightSkyBlue;
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dgvDSTU.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             dgvDSTU.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDSTU.Columns.AddRange(new DataGridViewColumn[] { ID, TUVIETTAT, TUDAYDU, NOIDUNG, GHICHU, LINHVUC });
+            dgvDSTU.Columns.AddRange(new DataGridViewColumn[] { ID, TUVIETTAT, TUDAYDU, NOIDUNG, GHICHU, LINHVUC, CreatedDate, ModifiedDate });
             dgvDSTU.Dock = DockStyle.Fill;
             dgvDSTU.EnableHeadersVisualStyles = false;
             dgvDSTU.Location = new Point(0, 84);
             dgvDSTU.Name = "dgvDSTU";
             dgvDSTU.ReadOnly = true;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = SystemColors.Control;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgvDSTU.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = SystemColors.Control;
+            dataGridViewCellStyle9.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = Color.White;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            dgvDSTU.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dgvDSTU.RowHeadersWidth = 51;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dgvDSTU.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = Color.White;
+            dgvDSTU.RowsDefaultCellStyle = dataGridViewCellStyle10;
             dgvDSTU.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDSTU.Size = new Size(612, 566);
             dgvDSTU.TabIndex = 101;
@@ -456,10 +458,10 @@
             // TUVIETTAT
             // 
             TUVIETTAT.DataPropertyName = "TUVIETTAT";
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            TUVIETTAT.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = Color.Black;
+            TUVIETTAT.DefaultCellStyle = dataGridViewCellStyle7;
             TUVIETTAT.FillWeight = 50F;
             TUVIETTAT.HeaderText = "Từ viết tắt";
             TUVIETTAT.MinimumWidth = 6;
@@ -469,10 +471,10 @@
             // TUDAYDU
             // 
             TUDAYDU.DataPropertyName = "TUDAYDU";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            TUDAYDU.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = Color.Black;
+            TUDAYDU.DefaultCellStyle = dataGridViewCellStyle8;
             TUDAYDU.FillWeight = 125F;
             TUDAYDU.HeaderText = "Từ đầy đủ";
             TUDAYDU.MinimumWidth = 6;
@@ -500,16 +502,35 @@
             // LINHVUC
             // 
             LINHVUC.DataPropertyName = "LINHVUC";
-            LINHVUC.DefaultCellStyle = dataGridViewCellStyle3;
+            LINHVUC.DefaultCellStyle = dataGridViewCellStyle8;
             LINHVUC.FillWeight = 60F;
             LINHVUC.HeaderText = "Lĩnh vực";
             LINHVUC.MinimumWidth = 6;
             LINHVUC.Name = "LINHVUC";
             LINHVUC.ReadOnly = true;
             // 
+            // CreatedDate
+            // 
+            CreatedDate.DataPropertyName = "CreatedDate";
+            CreatedDate.HeaderText = "CreatedDate";
+            CreatedDate.MinimumWidth = 6;
+            CreatedDate.Name = "CreatedDate";
+            CreatedDate.ReadOnly = true;
+            CreatedDate.Visible = false;
+            // 
+            // ModifiedDate
+            // 
+            ModifiedDate.DataPropertyName = "ModifiedDate";
+            ModifiedDate.HeaderText = "ModifiedDate";
+            ModifiedDate.MinimumWidth = 6;
+            ModifiedDate.Name = "ModifiedDate";
+            ModifiedDate.ReadOnly = true;
+            ModifiedDate.Visible = false;
+            // 
             // panel2
             // 
             panel2.BackColor = SystemColors.Highlight;
+            panel2.BorderStyle = BorderStyle.Fixed3D;
             panel2.Controls.Add(label3);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 44);
@@ -522,10 +543,11 @@
             label3.Anchor = AnchorStyles.None;
             label3.AutoSize = true;
             label3.BackColor = Color.White;
+            label3.BorderStyle = BorderStyle.Fixed3D;
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(226, 7);
+            label3.Location = new Point(224, 5);
             label3.Name = "label3";
-            label3.Size = new Size(149, 25);
+            label3.Size = new Size(151, 27);
             label3.TabIndex = 0;
             label3.Text = "DANH SÁCH TỪ";
             // 
@@ -548,7 +570,7 @@
             btnLoc.ImageAlign = ContentAlignment.MiddleRight;
             btnLoc.ImageIndex = 9;
             btnLoc.ImageList = imageList1;
-            btnLoc.Location = new Point(391, 3);
+            btnLoc.Location = new Point(399, 3);
             btnLoc.Margin = new Padding(4);
             btnLoc.Name = "btnLoc";
             btnLoc.Size = new Size(84, 32);
@@ -596,9 +618,10 @@
             label6.Anchor = AnchorStyles.None;
             label6.AutoSize = true;
             label6.BackColor = Color.White;
+            label6.BorderStyle = BorderStyle.Fixed3D;
             label6.Location = new Point(407, 7);
             label6.Name = "label6";
-            label6.Size = new Size(88, 25);
+            label6.Size = new Size(90, 27);
             label6.TabIndex = 1;
             label6.Text = "GHI CHÚ";
             // 
@@ -630,9 +653,10 @@
             label4.Anchor = AnchorStyles.None;
             label4.AutoSize = true;
             label4.BackColor = Color.White;
+            label4.BorderStyle = BorderStyle.Fixed3D;
             label4.Location = new Point(407, 5);
             label4.Name = "label4";
-            label4.Size = new Size(104, 25);
+            label4.Size = new Size(106, 27);
             label4.TabIndex = 0;
             label4.Text = "NỘI DUNG";
             // 
@@ -713,5 +737,7 @@
         private TextBox txtTuVietTat;
         private Label lbLinhVuc;
         private ComboBox cmbLinhVuc1;
+        private DataGridViewTextBoxColumn CreatedDate;
+        private DataGridViewTextBoxColumn ModifiedDate;
     }
 }
