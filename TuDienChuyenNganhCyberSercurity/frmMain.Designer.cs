@@ -67,6 +67,12 @@
             LINHVUC = new DataGridViewTextBoxColumn();
             CreatedDate = new DataGridViewTextBoxColumn();
             ModifiedDate = new DataGridViewTextBoxColumn();
+            panel6 = new Panel();
+            btnLastPage = new Button();
+            btnNextPage = new Button();
+            btnPrePage = new Button();
+            btnFirstPage = new Button();
+            txtPage = new TextBox();
             panel2 = new Panel();
             label3 = new Label();
             panelLoc = new Panel();
@@ -78,7 +84,6 @@
             txtGhiChu = new RichTextBox();
             panel4 = new Panel();
             label6 = new Label();
-            txtNoiDung = new RichTextBox();
             panelFormatText = new Panel();
             btnShowColor = new Button();
             btnColorMenu = new Button();
@@ -87,6 +92,7 @@
             btnItalic = new Button();
             btnUnderline = new Button();
             btnBold = new Button();
+            txtNoiDung = new RichTextBox();
             panel3 = new Panel();
             label4 = new Label();
             colorDialog1 = new ColorDialog();
@@ -99,6 +105,7 @@
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDSTU).BeginInit();
+            panel6.SuspendLayout();
             panel2.SuspendLayout();
             panelLoc.SuspendLayout();
             panel5.SuspendLayout();
@@ -163,6 +170,10 @@
             imageList1.Images.SetKeyName(8, "Filter1.png");
             imageList1.Images.SetKeyName(9, "filter.png");
             imageList1.Images.SetKeyName(10, "ColorMenu.png");
+            imageList1.Images.SetKeyName(11, "GoTo1stPage.png");
+            imageList1.Images.SetKeyName(12, "GoToLasttPage.png");
+            imageList1.Images.SetKeyName(13, "GoToNextPage.png");
+            imageList1.Images.SetKeyName(14, "GoToPrePage.png");
             // 
             // btnThem
             // 
@@ -304,7 +315,7 @@
             // 
             // cmbLinhVuc1
             // 
-            cmbLinhVuc1.BackColor = Color.PaleTurquoise;
+            cmbLinhVuc1.BackColor = Color.FloralWhite;
             cmbLinhVuc1.Font = new Font("Times New Roman", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbLinhVuc1.FormattingEnabled = true;
             cmbLinhVuc1.Location = new Point(1249, 3);
@@ -325,7 +336,7 @@
             // 
             // txtTuDayDu
             // 
-            txtTuDayDu.BackColor = Color.PaleTurquoise;
+            txtTuDayDu.BackColor = Color.FloralWhite;
             txtTuDayDu.Font = new Font("Times New Roman", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtTuDayDu.ForeColor = Color.Black;
             txtTuDayDu.Location = new Point(547, 4);
@@ -336,7 +347,7 @@
             // 
             // txtTuVietTat
             // 
-            txtTuVietTat.BackColor = Color.PaleTurquoise;
+            txtTuVietTat.BackColor = Color.FloralWhite;
             txtTuVietTat.Font = new Font("Times New Roman", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtTuVietTat.ForeColor = Color.Black;
             txtTuVietTat.Location = new Point(110, 4);
@@ -395,6 +406,7 @@
             // 
             // cmbLinhVuc
             // 
+            cmbLinhVuc.BackColor = Color.White;
             cmbLinhVuc.FormattingEnabled = true;
             cmbLinhVuc.Location = new Point(96, 3);
             cmbLinhVuc.Name = "cmbLinhVuc";
@@ -411,6 +423,7 @@
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.Controls.Add(dgvDSTU);
+            splitContainer1.Panel1.Controls.Add(panel6);
             splitContainer1.Panel1.Controls.Add(panel2);
             splitContainer1.Panel1.Controls.Add(panelLoc);
             // 
@@ -432,7 +445,7 @@
             dgvDSTU.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = Color.LightSkyBlue;
-            dataGridViewCellStyle1.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dataGridViewCellStyle1.ForeColor = Color.Black;
             dataGridViewCellStyle1.SelectionBackColor = Color.LightSkyBlue;
             dataGridViewCellStyle1.SelectionForeColor = Color.White;
@@ -458,7 +471,7 @@
             dataGridViewCellStyle6.SelectionForeColor = Color.White;
             dgvDSTU.RowsDefaultCellStyle = dataGridViewCellStyle6;
             dgvDSTU.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDSTU.Size = new Size(822, 566);
+            dgvDSTU.Size = new Size(822, 522);
             dgvDSTU.TabIndex = 101;
             dgvDSTU.SelectionChanged += dgvDSTU_SelectionChanged;
             // 
@@ -547,6 +560,87 @@
             ModifiedDate.ReadOnly = true;
             ModifiedDate.Visible = false;
             // 
+            // panel6
+            // 
+            panel6.BackColor = SystemColors.Highlight;
+            panel6.BorderStyle = BorderStyle.Fixed3D;
+            panel6.Controls.Add(btnLastPage);
+            panel6.Controls.Add(btnNextPage);
+            panel6.Controls.Add(btnPrePage);
+            panel6.Controls.Add(btnFirstPage);
+            panel6.Controls.Add(txtPage);
+            panel6.Dock = DockStyle.Bottom;
+            panel6.Font = new Font("Times New Roman", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            panel6.Location = new Point(0, 606);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(822, 44);
+            panel6.TabIndex = 103;
+            // 
+            // btnLastPage
+            // 
+            btnLastPage.Anchor = AnchorStyles.None;
+            btnLastPage.Font = new Font("Times New Roman", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLastPage.ImageIndex = 12;
+            btnLastPage.ImageList = imageList1;
+            btnLastPage.Location = new Point(484, 5);
+            btnLastPage.Name = "btnLastPage";
+            btnLastPage.Size = new Size(29, 29);
+            btnLastPage.TabIndex = 2;
+            btnLastPage.UseVisualStyleBackColor = true;
+            btnLastPage.Click += btnLastPage_Click;
+            // 
+            // btnNextPage
+            // 
+            btnNextPage.Anchor = AnchorStyles.None;
+            btnNextPage.Font = new Font("Times New Roman", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnNextPage.ImageIndex = 13;
+            btnNextPage.ImageList = imageList1;
+            btnNextPage.Location = new Point(449, 5);
+            btnNextPage.Name = "btnNextPage";
+            btnNextPage.Size = new Size(29, 29);
+            btnNextPage.TabIndex = 2;
+            btnNextPage.UseVisualStyleBackColor = true;
+            btnNextPage.Click += btnNextPage_Click;
+            // 
+            // btnPrePage
+            // 
+            btnPrePage.Anchor = AnchorStyles.None;
+            btnPrePage.Font = new Font("Times New Roman", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnPrePage.ImageIndex = 14;
+            btnPrePage.ImageList = imageList1;
+            btnPrePage.Location = new Point(338, 5);
+            btnPrePage.Name = "btnPrePage";
+            btnPrePage.Size = new Size(29, 29);
+            btnPrePage.TabIndex = 2;
+            btnPrePage.UseVisualStyleBackColor = true;
+            btnPrePage.Click += btnPrePage_Click;
+            // 
+            // btnFirstPage
+            // 
+            btnFirstPage.Anchor = AnchorStyles.None;
+            btnFirstPage.Font = new Font("Times New Roman", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnFirstPage.ImageIndex = 11;
+            btnFirstPage.ImageList = imageList1;
+            btnFirstPage.Location = new Point(303, 5);
+            btnFirstPage.Name = "btnFirstPage";
+            btnFirstPage.Size = new Size(29, 29);
+            btnFirstPage.TabIndex = 2;
+            btnFirstPage.UseVisualStyleBackColor = true;
+            btnFirstPage.Click += btnFirstPage_Click;
+            // 
+            // txtPage
+            // 
+            txtPage.Anchor = AnchorStyles.None;
+            txtPage.BackColor = SystemColors.Window;
+            txtPage.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtPage.Location = new Point(375, 5);
+            txtPage.Name = "txtPage";
+            txtPage.Size = new Size(66, 30);
+            txtPage.TabIndex = 1;
+            txtPage.TextAlign = HorizontalAlignment.Center;
+            txtPage.KeyDown += txtPage_KeyDown;
+            txtPage.Leave += txtPage_Leave;
+            // 
             // panel2
             // 
             panel2.BackColor = SystemColors.Highlight;
@@ -610,6 +704,7 @@
             // 
             // cmbNgayTao
             // 
+            cmbNgayTao.BackColor = Color.White;
             cmbNgayTao.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbNgayTao.FormattingEnabled = true;
             cmbNgayTao.Items.AddRange(new object[] { "--None--", "Tăng dần", "Giảm dần" });
@@ -633,8 +728,8 @@
             // 
             panel5.Controls.Add(txtGhiChu);
             panel5.Controls.Add(panel4);
-            panel5.Controls.Add(txtNoiDung);
             panel5.Controls.Add(panelFormatText);
+            panel5.Controls.Add(txtNoiDung);
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(0, 40);
             panel5.Name = "panel5";
@@ -646,9 +741,9 @@
             txtGhiChu.BackColor = SystemColors.GradientInactiveCaption;
             txtGhiChu.Dock = DockStyle.Fill;
             txtGhiChu.Font = new Font("Times New Roman", 13.2000008F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtGhiChu.Location = new Point(0, 301);
+            txtGhiChu.Location = new Point(0, 419);
             txtGhiChu.Name = "txtGhiChu";
-            txtGhiChu.Size = new Size(1098, 309);
+            txtGhiChu.Size = new Size(1098, 191);
             txtGhiChu.TabIndex = 5;
             txtGhiChu.Text = "";
             txtGhiChu.KeyDown += txtGhiChu_KeyDown;
@@ -659,7 +754,7 @@
             panel4.BorderStyle = BorderStyle.Fixed3D;
             panel4.Controls.Add(label6);
             panel4.Dock = DockStyle.Top;
-            panel4.Location = new Point(0, 257);
+            panel4.Location = new Point(0, 375);
             panel4.Name = "panel4";
             panel4.Size = new Size(1098, 44);
             panel4.TabIndex = 101;
@@ -676,18 +771,6 @@
             label6.TabIndex = 1;
             label6.Text = "GHI CHÚ";
             // 
-            // txtNoiDung
-            // 
-            txtNoiDung.BackColor = SystemColors.GradientInactiveCaption;
-            txtNoiDung.Dock = DockStyle.Top;
-            txtNoiDung.Font = new Font("Times New Roman", 13.2000008F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtNoiDung.Location = new Point(0, 44);
-            txtNoiDung.Name = "txtNoiDung";
-            txtNoiDung.Size = new Size(1098, 213);
-            txtNoiDung.TabIndex = 4;
-            txtNoiDung.Text = "";
-            txtNoiDung.KeyDown += txtNoiDung_KeyDown;
-            // 
             // panelFormatText
             // 
             panelFormatText.BackColor = SystemColors.GradientActiveCaption;
@@ -700,7 +783,7 @@
             panelFormatText.Controls.Add(btnUnderline);
             panelFormatText.Controls.Add(btnBold);
             panelFormatText.Dock = DockStyle.Top;
-            panelFormatText.Location = new Point(0, 0);
+            panelFormatText.Location = new Point(0, 331);
             panelFormatText.Name = "panelFormatText";
             panelFormatText.Size = new Size(1098, 44);
             panelFormatText.TabIndex = 6;
@@ -708,27 +791,27 @@
             // 
             // btnShowColor
             // 
+            btnShowColor.BackColor = Color.Black;
             btnShowColor.Font = new Font("Times New Roman", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnShowColor.Location = new Point(382, 5);
+            btnShowColor.Location = new Point(347, 5);
             btnShowColor.Name = "btnShowColor";
-            btnShowColor.Size = new Size(28, 29);
+            btnShowColor.Size = new Size(35, 29);
             btnShowColor.TabIndex = 105;
             btnShowColor.Text = " ";
-            btnShowColor.UseVisualStyleBackColor = true;
+            btnShowColor.UseVisualStyleBackColor = false;
             btnShowColor.Click += btnShowColor_Click;
             // 
             // btnColorMenu
             // 
-            btnColorMenu.BackColor = Color.PapayaWhip;
+            btnColorMenu.BackColor = Color.White;
             btnColorMenu.Font = new Font("Times New Roman", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnColorMenu.ForeColor = SystemColors.HotTrack;
+            btnColorMenu.ForeColor = SystemColors.ActiveCaptionText;
             btnColorMenu.ImageIndex = 10;
             btnColorMenu.ImageList = imageList1;
-            btnColorMenu.Location = new Point(335, 5);
+            btnColorMenu.Location = new Point(312, 5);
             btnColorMenu.Name = "btnColorMenu";
-            btnColorMenu.Size = new Size(48, 29);
+            btnColorMenu.Size = new Size(35, 29);
             btnColorMenu.TabIndex = 104;
-            btnColorMenu.Text = "▼";
             btnColorMenu.TextAlign = ContentAlignment.MiddleRight;
             btnColorMenu.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnColorMenu.UseVisualStyleBackColor = false;
@@ -738,7 +821,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(245, 9);
+            label8.Location = new Point(222, 9);
             label8.Name = "label8";
             label8.Size = new Size(84, 23);
             label8.TabIndex = 103;
@@ -756,7 +839,7 @@
             // 
             // btnItalic
             // 
-            btnItalic.BackColor = Color.PapayaWhip;
+            btnItalic.BackColor = Color.White;
             btnItalic.Font = new Font("Times New Roman", 10.8F, FontStyle.Italic, GraphicsUnit.Point, 0);
             btnItalic.Location = new Point(159, 5);
             btnItalic.Name = "btnItalic";
@@ -768,7 +851,7 @@
             // 
             // btnUnderline
             // 
-            btnUnderline.BackColor = Color.PapayaWhip;
+            btnUnderline.BackColor = Color.White;
             btnUnderline.Font = new Font("Times New Roman", 10.8F, FontStyle.Underline, GraphicsUnit.Point, 0);
             btnUnderline.Location = new Point(125, 5);
             btnUnderline.Name = "btnUnderline";
@@ -780,7 +863,7 @@
             // 
             // btnBold
             // 
-            btnBold.BackColor = Color.PapayaWhip;
+            btnBold.BackColor = Color.White;
             btnBold.Font = new Font("Times New Roman", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBold.Location = new Point(91, 5);
             btnBold.Name = "btnBold";
@@ -789,6 +872,18 @@
             btnBold.Text = "B";
             btnBold.UseVisualStyleBackColor = false;
             btnBold.Click += btnBold_Click;
+            // 
+            // txtNoiDung
+            // 
+            txtNoiDung.BackColor = SystemColors.GradientInactiveCaption;
+            txtNoiDung.Dock = DockStyle.Top;
+            txtNoiDung.Font = new Font("Times New Roman", 13.2000008F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtNoiDung.Location = new Point(0, 0);
+            txtNoiDung.Name = "txtNoiDung";
+            txtNoiDung.Size = new Size(1098, 331);
+            txtNoiDung.TabIndex = 4;
+            txtNoiDung.Text = "";
+            txtNoiDung.KeyDown += txtNoiDung_KeyDown;
             // 
             // panel3
             // 
@@ -849,6 +944,8 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvDSTU).EndInit();
+            panel6.ResumeLayout(false);
+            panel6.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panelLoc.ResumeLayout(false);
@@ -923,5 +1020,11 @@
         private ContextMenuStrip colorMenu;
         private ToolStripMenuItem btnMoreColors;
         private Button btnShowColor;
+        private Panel panel6;
+        private TextBox txtPage;
+        private Button btnFirstPage;
+        private Button btnPrePage;
+        private Button btnLastPage;
+        private Button btnNextPage;
     }
 }

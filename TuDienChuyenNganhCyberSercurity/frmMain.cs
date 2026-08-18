@@ -5,6 +5,11 @@ namespace TuDienChuyenNganhCyberSecurity
 {
     public partial class frmMain : Form
     {
+        DataTable dtOriginal = new DataTable(); // Chứa toàn bộ dữ liệu gốc
+        int currentPage = 1;  // Trang hiện tại
+        int pageSize = 30;    // Số dòng trên một trang
+        int totalPages = 1;   // Tổng số trang
+        public static BindingSource bds_dscmb = new BindingSource();
         public static BindingSource bds_dstu = new BindingSource();
         public static BindingSource bds_dslinhvuc = new BindingSource();
         public static BindingSource bds_dslinhvuc1 = new BindingSource();
@@ -43,15 +48,15 @@ namespace TuDienChuyenNganhCyberSecurity
                     string query2 = "SELECT LINHVUC FROM TUDIEN GROUP BY LINHVUC";
                     using (var cmd = new SQLiteCommand(query, connection))
                     {
-                        DataTable dt = new DataTable();
                         SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
-                        da.Fill(dt);
-                        bds_dstu.DataSource = dt;
-                        cmbTuDayDu.DataSource = bds_dstu;
+                        da.Fill(dtOriginal);
+                        DisplayPage(1);
+                        bds_dscmb.DataSource = dtOriginal;
+                        cmbTuDayDu.DataSource = bds_dscmb;
                         cmbTuDayDu.DisplayMember = "TuDayDu";
                         cmbTuDayDu.ValueMember = "ID";
                         cmbTuDayDu.SelectedIndex = 0;
-                        cmbTuVietTat.DataSource = bds_dstu;
+                        cmbTuVietTat.DataSource = bds_dscmb;
                         cmbTuVietTat.DisplayMember = "TuVietTat";
                         cmbTuVietTat.ValueMember = "ID";
                         cmbTuVietTat.SelectedIndex = 0;
@@ -276,6 +281,7 @@ namespace TuDienChuyenNganhCyberSecurity
         {
             try
             {
+                isLoading = true;
                 using (var connection = new SQLiteConnection(Program.connectionString))
                 {
                     connection.Open();
@@ -283,15 +289,15 @@ namespace TuDienChuyenNganhCyberSecurity
                     string query2 = "SELECT LINHVUC FROM TUDIEN GROUP BY LINHVUC";
                     using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
                     {
-                        DataTable dt = new DataTable();
                         SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
-                        da.Fill(dt);
-                        bds_dstu.DataSource = dt;
-                        cmbTuDayDu.DataSource = bds_dstu;
+                        da.Fill(dtOriginal);
+                        DisplayPage(1);
+                        bds_dscmb.DataSource = dtOriginal;
+                        cmbTuDayDu.DataSource = bds_dscmb;
                         cmbTuDayDu.DisplayMember = "TuDayDu";
                         cmbTuDayDu.ValueMember = "ID";
                         cmbTuDayDu.SelectedIndex = position;
-                        cmbTuVietTat.DataSource = bds_dstu;
+                        cmbTuVietTat.DataSource = bds_dscmb;
                         cmbTuVietTat.DisplayMember = "TuVietTat";
                         cmbTuVietTat.ValueMember = "ID";
                         cmbTuVietTat.SelectedIndex = position;
@@ -333,6 +339,7 @@ namespace TuDienChuyenNganhCyberSecurity
 
                     }
                 }
+                isLoading = false;
 
             }
             catch (SQLiteException ex)
@@ -412,7 +419,7 @@ namespace TuDienChuyenNganhCyberSecurity
             txtGhiChu.ReadOnly = false;
             txtNoiDung.ReadOnly = false;
             panelFormatText.Visible = lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = true;
-            txtNoiDung.BackColor = txtGhiChu.BackColor = Color.PaleTurquoise;
+            txtNoiDung.BackColor = txtGhiChu.BackColor = Color.FloralWhite;
         }
         private void btnCapNhat_Click(object sender, EventArgs e)
         {
@@ -440,7 +447,7 @@ namespace TuDienChuyenNganhCyberSecurity
             txtGhiChu.ReadOnly = false;
             txtNoiDung.ReadOnly = false;
             panelFormatText.Visible = lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = true;
-            txtNoiDung.BackColor = txtGhiChu.BackColor = Color.PaleTurquoise;
+            txtNoiDung.BackColor = txtGhiChu.BackColor = Color.FloralWhite;
         }
 
         private void btnLuu_Click(object sender, EventArgs e)
@@ -826,91 +833,126 @@ namespace TuDienChuyenNganhCyberSecurity
 
         private void btnBold_Click(object sender, EventArgs e)
         {
-            // Trường hợp 1: Người dùng đang bôi đen bên ô Ghi Chú
-            if (txtGhiChu.SelectionLength > 0)
+            if (txtGhiChu.Focused)
             {
                 Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
                 txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Bold);
             }
-            // Trường hợp 2: Người dùng đang bôi đen bên ô Nội Dung
-            else if (txtNoiDung.SelectionLength > 0)
+            else if (txtNoiDung.Focused)
             {
-                Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font; // Sửa lỗi lấy nhầm font của txtGhiChu
+                Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font;
                 txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Bold);
-            }
-            // Trường hợp 3: Không ô nào bôi đen (Áp dụng cho ô đang được con trỏ chuột nhắm vào - Focus)
-            else
-            {
-                if (txtGhiChu.Focused)
-                {
-                    Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
-                    txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Bold);
-                }
-                else if (txtNoiDung.Focused)
-                {
-                    Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font;
-                    txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Bold);
-                }
             }
         }
 
         private void btnUnderline_Click(object sender, EventArgs e)
         {
-            // Trường hợp 1: Người dùng đang bôi đen bên ô Ghi Chú
-            if (txtGhiChu.SelectionLength > 0)
+
+            if (txtGhiChu.Focused)
             {
                 Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
                 txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Underline);
             }
-            // Trường hợp 2: Người dùng đang bôi đen bên ô Nội Dung
-            else if (txtNoiDung.SelectionLength > 0)
+            else if (txtNoiDung.Focused)
             {
-                Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font; // Sửa lỗi lấy nhầm font của txtGhiChu
+                Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font;
                 txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Underline);
             }
-            // Trường hợp 3: Không ô nào bôi đen (Áp dụng cho ô đang được con trỏ chuột nhắm vào - Focus)
-            else
-            {
-                if (txtGhiChu.Focused)
-                {
-                    Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
-                    txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Underline);
-                }
-                else if (txtNoiDung.Focused)
-                {
-                    Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font;
-                    txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Underline);
-                }
-            }
+
         }
 
         private void btnItalic_Click(object sender, EventArgs e)
         {
-            // Trường hợp 1: Người dùng đang bôi đen bên ô Ghi Chú
-            if (txtGhiChu.SelectionLength > 0)
+
+            if (txtGhiChu.Focused)
             {
                 Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
                 txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Italic);
             }
-            // Trường hợp 2: Người dùng đang bôi đen bên ô Nội Dung
-            else if (txtNoiDung.SelectionLength > 0)
+            else if (txtNoiDung.Focused)
             {
-                Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font; // Sửa lỗi lấy nhầm font của txtGhiChu
+                Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font;
                 txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Italic);
             }
-            // Trường hợp 3: Không ô nào bôi đen (Áp dụng cho ô đang được con trỏ chuột nhắm vào - Focus)
+
+        }
+
+        private void DisplayPage(int page)
+        {
+            if (dtOriginal == null || dtOriginal.Rows.Count == 0) return;
+
+            // 1. Tính tổng số trang
+            totalPages = (int)Math.Ceiling((double)dtOriginal.Rows.Count / pageSize);
+
+            // 2. Kiểm tra giới hạn trang
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            currentPage = page;
+
+            // 3. Dùng LINQ lấy dữ liệu của trang hiện tại
+            var pageRows = dtOriginal.AsEnumerable()
+                                     .Skip((currentPage - 1) * pageSize)
+                                     .Take(pageSize);
+
+            // 4. Tạo DataTable mới cho trang này và gán vào BindingSource
+            if (pageRows.Any())
+            {
+                DataTable dtPage = pageRows.CopyToDataTable();
+                bds_dstu.DataSource = dtPage;
+            }
             else
             {
-                if (txtGhiChu.Focused)
-                {
-                    Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
-                    txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Italic);
-                }
-                else if (txtNoiDung.Focused)
-                {
-                    Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font;
-                    txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Italic);
-                }
+                bds_dstu.DataSource = dtOriginal.Clone(); // Trả về bảng trống nếu không có dữ liệu
+            }
+
+            // 5. Cập nhật giao diện (Ví dụ: "Trang 1 / 10")
+            txtPage.Text = $"{currentPage}/{totalPages}";
+        }
+
+        private void btnPrePage_Click(object sender, EventArgs e)
+        {
+            if (currentPage > 1) DisplayPage(currentPage - 1);
+        }
+
+        private void btnFirstPage_Click(object sender, EventArgs e)
+        {
+            DisplayPage(1);
+        }
+
+        private void btnNextPage_Click(object sender, EventArgs e)
+        {
+            if (currentPage < totalPages) DisplayPage(currentPage + 1);
+        }
+
+        private void btnLastPage_Click(object sender, EventArgs e)
+        {
+            DisplayPage(totalPages);
+        }
+
+        private void txtPage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Tắt tiếng bíp
+                this.ActiveControl = null; // Ép Form bỏ chọn TextBox -> Kích hoạt sự kiện Leave bên dưới
+            }
+        }
+
+        private void txtPage_Leave(object sender, EventArgs e)
+        {
+            if(!int.TryParse(txtPage.Text, out int targetPage))
+            {
+                txtPage.Text = $"{currentPage}/{totalPages}";
+                return;
+            }
+            if(targetPage < 1 || targetPage > totalPages)
+            {
+                txtPage.Text = $"{currentPage}/{totalPages}";
+                return;
+            }
+            if (targetPage != currentPage)
+            {
+                DisplayPage(targetPage);
             }
         }
     }
