@@ -30,12 +30,12 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             flowPanel = new FlowLayoutPanel();
             btnTraCuu = new Button();
             imageList1 = new ImageList(components);
@@ -79,8 +79,19 @@
             panel4 = new Panel();
             label6 = new Label();
             txtNoiDung = new RichTextBox();
+            panelFormatText = new Panel();
+            btnShowColor = new Button();
+            btnColorMenu = new Button();
+            label8 = new Label();
+            label7 = new Label();
+            btnItalic = new Button();
+            btnUnderline = new Button();
+            btnBold = new Button();
             panel3 = new Panel();
             label4 = new Label();
+            colorDialog1 = new ColorDialog();
+            colorMenu = new ContextMenuStrip(components);
+            btnMoreColors = new ToolStripMenuItem();
             flowPanel.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -92,13 +103,15 @@
             panelLoc.SuspendLayout();
             panel5.SuspendLayout();
             panel4.SuspendLayout();
+            panelFormatText.SuspendLayout();
             panel3.SuspendLayout();
+            colorMenu.SuspendLayout();
             SuspendLayout();
             // 
             // flowPanel
             // 
             flowPanel.AutoSize = true;
-            flowPanel.BackColor = SystemColors.ActiveCaption;
+            flowPanel.BackColor = SystemColors.GradientActiveCaption;
             flowPanel.BorderStyle = BorderStyle.Fixed3D;
             flowPanel.Controls.Add(btnTraCuu);
             flowPanel.Controls.Add(btnThem);
@@ -149,6 +162,7 @@
             imageList1.Images.SetKeyName(7, "Rollback.png");
             imageList1.Images.SetKeyName(8, "Filter1.png");
             imageList1.Images.SetKeyName(9, "filter.png");
+            imageList1.Images.SetKeyName(10, "ColorMenu.png");
             // 
             // btnThem
             // 
@@ -272,7 +286,7 @@
             // panel1
             // 
             panel1.AutoSize = true;
-            panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.BackColor = SystemColors.GradientActiveCaption;
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(cmbLinhVuc1);
             panel1.Controls.Add(lbLinhVuc);
@@ -403,8 +417,6 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(panel5);
-            splitContainer1.Panel2.Controls.Add(panel4);
-            splitContainer1.Panel2.Controls.Add(txtNoiDung);
             splitContainer1.Panel2.Controls.Add(panel3);
             splitContainer1.Size = new Size(1924, 650);
             splitContainer1.SplitterDistance = 822;
@@ -415,17 +427,17 @@
             // 
             dgvDSTU.AllowUserToAddRows = false;
             dgvDSTU.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDSTU.BackgroundColor = SystemColors.GradientActiveCaption;
+            dgvDSTU.BackgroundColor = SystemColors.GradientInactiveCaption;
             dgvDSTU.BorderStyle = BorderStyle.Fixed3D;
             dgvDSTU.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = Color.LightSkyBlue;
-            dataGridViewCellStyle7.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = Color.LightSkyBlue;
-            dataGridViewCellStyle7.SelectionForeColor = Color.White;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dgvDSTU.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.LightSkyBlue;
+            dataGridViewCellStyle1.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = Color.LightSkyBlue;
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvDSTU.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvDSTU.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDSTU.Columns.AddRange(new DataGridViewColumn[] { ID, TUVIETTAT, TUDAYDU, NOIDUNG, GHICHU, LINHVUC, CreatedDate, ModifiedDate });
             dgvDSTU.Dock = DockStyle.Fill;
@@ -433,18 +445,18 @@
             dgvDSTU.Location = new Point(0, 84);
             dgvDSTU.Name = "dgvDSTU";
             dgvDSTU.ReadOnly = true;
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = SystemColors.Control;
-            dataGridViewCellStyle11.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = Color.White;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dgvDSTU.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvDSTU.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvDSTU.RowHeadersWidth = 51;
-            dataGridViewCellStyle12.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = Color.White;
-            dgvDSTU.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dgvDSTU.RowsDefaultCellStyle = dataGridViewCellStyle6;
             dgvDSTU.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDSTU.Size = new Size(822, 566);
             dgvDSTU.TabIndex = 101;
@@ -463,10 +475,10 @@
             // TUVIETTAT
             // 
             TUVIETTAT.DataPropertyName = "TUVIETTAT";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = Color.Black;
-            TUVIETTAT.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            TUVIETTAT.DefaultCellStyle = dataGridViewCellStyle2;
             TUVIETTAT.FillWeight = 50F;
             TUVIETTAT.HeaderText = "Từ viết tắt";
             TUVIETTAT.MinimumWidth = 6;
@@ -476,10 +488,10 @@
             // TUDAYDU
             // 
             TUDAYDU.DataPropertyName = "TUDAYDU";
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = Color.Black;
-            TUDAYDU.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            TUDAYDU.DefaultCellStyle = dataGridViewCellStyle3;
             TUDAYDU.FillWeight = 125F;
             TUDAYDU.HeaderText = "Từ đầy đủ";
             TUDAYDU.MinimumWidth = 6;
@@ -507,10 +519,10 @@
             // LINHVUC
             // 
             LINHVUC.DataPropertyName = "LINHVUC";
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = Color.Black;
-            LINHVUC.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            LINHVUC.DefaultCellStyle = dataGridViewCellStyle4;
             LINHVUC.FillWeight = 60F;
             LINHVUC.HeaderText = "Lĩnh vực";
             LINHVUC.MinimumWidth = 6;
@@ -620,18 +632,21 @@
             // panel5
             // 
             panel5.Controls.Add(txtGhiChu);
+            panel5.Controls.Add(panel4);
+            panel5.Controls.Add(txtNoiDung);
+            panel5.Controls.Add(panelFormatText);
             panel5.Dock = DockStyle.Fill;
-            panel5.Location = new Point(0, 341);
+            panel5.Location = new Point(0, 40);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1098, 309);
+            panel5.Size = new Size(1098, 610);
             panel5.TabIndex = 102;
             // 
             // txtGhiChu
             // 
             txtGhiChu.BackColor = SystemColors.GradientInactiveCaption;
             txtGhiChu.Dock = DockStyle.Fill;
-            txtGhiChu.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtGhiChu.Location = new Point(0, 0);
+            txtGhiChu.Font = new Font("Times New Roman", 13.2000008F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtGhiChu.Location = new Point(0, 301);
             txtGhiChu.Name = "txtGhiChu";
             txtGhiChu.Size = new Size(1098, 309);
             txtGhiChu.TabIndex = 5;
@@ -644,7 +659,7 @@
             panel4.BorderStyle = BorderStyle.Fixed3D;
             panel4.Controls.Add(label6);
             panel4.Dock = DockStyle.Top;
-            panel4.Location = new Point(0, 297);
+            panel4.Location = new Point(0, 257);
             panel4.Name = "panel4";
             panel4.Size = new Size(1098, 44);
             panel4.TabIndex = 101;
@@ -655,7 +670,7 @@
             label6.AutoSize = true;
             label6.BackColor = Color.White;
             label6.BorderStyle = BorderStyle.Fixed3D;
-            label6.Location = new Point(503, 7);
+            label6.Location = new Point(505, 7);
             label6.Name = "label6";
             label6.Size = new Size(90, 27);
             label6.TabIndex = 1;
@@ -665,13 +680,115 @@
             // 
             txtNoiDung.BackColor = SystemColors.GradientInactiveCaption;
             txtNoiDung.Dock = DockStyle.Top;
-            txtNoiDung.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtNoiDung.Location = new Point(0, 40);
+            txtNoiDung.Font = new Font("Times New Roman", 13.2000008F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtNoiDung.Location = new Point(0, 44);
             txtNoiDung.Name = "txtNoiDung";
-            txtNoiDung.Size = new Size(1098, 257);
+            txtNoiDung.Size = new Size(1098, 213);
             txtNoiDung.TabIndex = 4;
             txtNoiDung.Text = "";
             txtNoiDung.KeyDown += txtNoiDung_KeyDown;
+            // 
+            // panelFormatText
+            // 
+            panelFormatText.BackColor = SystemColors.GradientActiveCaption;
+            panelFormatText.BorderStyle = BorderStyle.Fixed3D;
+            panelFormatText.Controls.Add(btnShowColor);
+            panelFormatText.Controls.Add(btnColorMenu);
+            panelFormatText.Controls.Add(label8);
+            panelFormatText.Controls.Add(label7);
+            panelFormatText.Controls.Add(btnItalic);
+            panelFormatText.Controls.Add(btnUnderline);
+            panelFormatText.Controls.Add(btnBold);
+            panelFormatText.Dock = DockStyle.Top;
+            panelFormatText.Location = new Point(0, 0);
+            panelFormatText.Name = "panelFormatText";
+            panelFormatText.Size = new Size(1098, 44);
+            panelFormatText.TabIndex = 6;
+            panelFormatText.Visible = false;
+            // 
+            // btnShowColor
+            // 
+            btnShowColor.Font = new Font("Times New Roman", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnShowColor.Location = new Point(382, 5);
+            btnShowColor.Name = "btnShowColor";
+            btnShowColor.Size = new Size(28, 29);
+            btnShowColor.TabIndex = 105;
+            btnShowColor.Text = " ";
+            btnShowColor.UseVisualStyleBackColor = true;
+            btnShowColor.Click += btnShowColor_Click;
+            // 
+            // btnColorMenu
+            // 
+            btnColorMenu.BackColor = Color.PapayaWhip;
+            btnColorMenu.Font = new Font("Times New Roman", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnColorMenu.ForeColor = SystemColors.HotTrack;
+            btnColorMenu.ImageIndex = 10;
+            btnColorMenu.ImageList = imageList1;
+            btnColorMenu.Location = new Point(335, 5);
+            btnColorMenu.Name = "btnColorMenu";
+            btnColorMenu.Size = new Size(48, 29);
+            btnColorMenu.TabIndex = 104;
+            btnColorMenu.Text = "▼";
+            btnColorMenu.TextAlign = ContentAlignment.MiddleRight;
+            btnColorMenu.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnColorMenu.UseVisualStyleBackColor = false;
+            btnColorMenu.Click += btnColorMenu_Click;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.Location = new Point(245, 9);
+            label8.Name = "label8";
+            label8.Size = new Size(84, 23);
+            label8.TabIndex = 103;
+            label8.Text = "Màu chữ:";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(3, 8);
+            label7.Name = "label7";
+            label7.Size = new Size(84, 23);
+            label7.TabIndex = 102;
+            label7.Text = "Kiểu chữ:";
+            // 
+            // btnItalic
+            // 
+            btnItalic.BackColor = Color.PapayaWhip;
+            btnItalic.Font = new Font("Times New Roman", 10.8F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            btnItalic.Location = new Point(159, 5);
+            btnItalic.Name = "btnItalic";
+            btnItalic.Size = new Size(31, 29);
+            btnItalic.TabIndex = 2;
+            btnItalic.Text = "I";
+            btnItalic.UseVisualStyleBackColor = false;
+            btnItalic.Click += btnItalic_Click;
+            // 
+            // btnUnderline
+            // 
+            btnUnderline.BackColor = Color.PapayaWhip;
+            btnUnderline.Font = new Font("Times New Roman", 10.8F, FontStyle.Underline, GraphicsUnit.Point, 0);
+            btnUnderline.Location = new Point(125, 5);
+            btnUnderline.Name = "btnUnderline";
+            btnUnderline.Size = new Size(31, 29);
+            btnUnderline.TabIndex = 1;
+            btnUnderline.Text = "U";
+            btnUnderline.UseVisualStyleBackColor = false;
+            btnUnderline.Click += btnUnderline_Click;
+            // 
+            // btnBold
+            // 
+            btnBold.BackColor = Color.PapayaWhip;
+            btnBold.Font = new Font("Times New Roman", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBold.Location = new Point(91, 5);
+            btnBold.Name = "btnBold";
+            btnBold.Size = new Size(31, 29);
+            btnBold.TabIndex = 0;
+            btnBold.Text = "B";
+            btnBold.UseVisualStyleBackColor = false;
+            btnBold.Click += btnBold_Click;
             // 
             // panel3
             // 
@@ -690,11 +807,25 @@
             label4.AutoSize = true;
             label4.BackColor = Color.White;
             label4.BorderStyle = BorderStyle.Fixed3D;
-            label4.Location = new Point(503, 5);
+            label4.Location = new Point(495, 5);
             label4.Name = "label4";
             label4.Size = new Size(106, 27);
             label4.TabIndex = 0;
             label4.Text = "NỘI DUNG";
+            // 
+            // colorMenu
+            // 
+            colorMenu.ImageScalingSize = new Size(20, 20);
+            colorMenu.Items.AddRange(new ToolStripItem[] { btnMoreColors });
+            colorMenu.Name = "colorMenu";
+            colorMenu.Size = new Size(167, 28);
+            // 
+            // btnMoreColors
+            // 
+            btnMoreColors.Name = "btnMoreColors";
+            btnMoreColors.Size = new Size(166, 24);
+            btnMoreColors.Text = "More colors...";
+            btnMoreColors.Click += btnMoreColors_Click;
             // 
             // frmMain
             // 
@@ -707,7 +838,7 @@
             Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Margin = new Padding(4);
             Name = "frmMain";
-            Text = "Từ điển chuyên ngành Cyber Security";
+            Text = "Cẩm nang Cyber";
             Load += frmMain_Load;
             flowPanel.ResumeLayout(false);
             flowPanel.PerformLayout();
@@ -725,8 +856,11 @@
             panel5.ResumeLayout(false);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
+            panelFormatText.ResumeLayout(false);
+            panelFormatText.PerformLayout();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            colorMenu.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -778,5 +912,16 @@
         private Label label1;
         private ComboBox cmbNgaySua;
         private Label label2;
+        private Panel panelFormatText;
+        private Button btnItalic;
+        private Button btnUnderline;
+        private Button btnBold;
+        private ColorDialog colorDialog1;
+        private Label label7;
+        private Button btnColorMenu;
+        private Label label8;
+        private ContextMenuStrip colorMenu;
+        private ToolStripMenuItem btnMoreColors;
+        private Button btnShowColor;
     }
 }

@@ -88,7 +88,71 @@ namespace TuDienChuyenNganhCyberSecurity
                     GanNoiDungRichTextBox(txtGhiChu, row["GhiChu"]);
                     cmbLinhVuc1.SelectedValue = row["LinhVuc"];
                 }
+                colorMenu.AutoSize = true;
+                colorMenu.DropShadowEnabled = true;
+
+                // 2. Khởi tạo và cấu hình lưới màu chặt chẽ
+                TableLayoutPanel colorGrid = new TableLayoutPanel();
+                colorGrid.ColumnCount = 8;
+                colorGrid.RowCount = 2;
+
+                // ÉP CỐ ĐỊNH KÍCH THƯỚC LƯỚI MÀU (Chiều rộng 200px, Chiều cao 55px)
+                // Điều này ngăn menu biến nó thành sọc dọc
+                colorGrid.Size = new Size(200, 55);
+                colorGrid.MaximumSize = new Size(200, 55);
+                colorGrid.MinimumSize = new Size(200, 55);
+                colorGrid.Padding = new Padding(2);
+                colorGrid.Margin = new Padding(0);
+
+                // QUAN TRỌNG: Chia đều 8 cột, mỗi cột chiếm 12.5% độ rộng
+                for (int i = 0; i < 8; i++)
+                {
+                    colorGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5f));
+                }
+                // Chia đều 2 hàng, mỗi hàng chiếm 50% độ cao
+                for (int i = 0; i < 2; i++)
+                {
+                    colorGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 50f));
+                }
+
+                // Mảng 16 màu phổ biến giống Word
+                Color[] colors = {  Color.Black, Color.Gray, Color.Red, Color.Orange, Color.Yellow,
+                                    Color.Green, Color.Blue, Color.Purple, Color.White, Color.LightGray,
+                                    Color.Pink, Color.LightSalmon, Color.LightYellow, Color.LightGreen,
+                                    Color.LightSkyBlue, Color.Lavender
+                                  };
+
+                // 3. Tạo các ô màu nhỏ đưa vào lưới
+                foreach (Color col in colors)
+                {
+                    Button cell = new Button();
+                    cell.Dock = DockStyle.Fill; // Để ô màu tự lấp đầy ô lưới được chia
+                    cell.Margin = new Padding(2); // Khoảng cách giữa các ô màu
+                    cell.BackColor = col;
+                    cell.FlatStyle = FlatStyle.Flat;
+                    cell.FlatAppearance.BorderSize = 1;
+                    cell.FlatAppearance.BorderColor = Color.Silver;
+                    cell.Cursor = Cursors.Hand;
+
+                    cell.Click += (s, ev) =>
+                    {
+                        ChangeColor(col);
+                        colorMenu.Close();
+                    };
+
+                    colorGrid.Controls.Add(cell);
+                }
+
+                // 4. Nhúng lưới màu vào menu đã thiết kế bằng giao diện
+                ToolStripControlHost host = new ToolStripControlHost(colorGrid);
+                host.AutoSize = false; // Tắt AutoSize của host để nó tuân theo kích thước 200x55 cố định ở trên
+                host.Size = new Size(200, 55);
+                host.Margin = Padding.Empty;
+                host.Padding = Padding.Empty;
+                colorMenu.Items.Insert(0, host);
+                colorMenu.Items.Insert(1, new ToolStripSeparator());
                 isLoading = false;
+
             }
             catch (SQLiteException ex)
             {
@@ -121,7 +185,6 @@ namespace TuDienChuyenNganhCyberSecurity
                     lbTuDayDu.Visible = cmbTuDayDu.Visible = lbTuVietTat.Visible = cmbTuVietTat.Visible = true;
                     btnThem.Enabled = btnLuu.Enabled = btnXoa.Enabled = dgvDSTU.Enabled = false;
                 }
-
             }
             catch (Exception)
             {
@@ -318,6 +381,10 @@ namespace TuDienChuyenNganhCyberSecurity
                 lbTuDayDu.Visible = cmbTuDayDu.Visible = lbTuVietTat.Visible = cmbTuVietTat.Visible = false;
                 btnTraCuu.Text = "Tra cứu";
             }
+            if (isAdd || isUpdate)
+            {
+                panelFormatText.Visible = false;
+            }
             isAdd = false;
             isUpdate = false;
             isSearching = false;
@@ -344,7 +411,7 @@ namespace TuDienChuyenNganhCyberSecurity
             panelLoc.Visible = dgvDSTU.Enabled = btnTraCuu.Enabled = btnCapNhat.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnThoat.Enabled = false;
             txtGhiChu.ReadOnly = false;
             txtNoiDung.ReadOnly = false;
-            lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = true;
+            panelFormatText.Visible = lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = true;
             txtNoiDung.BackColor = txtGhiChu.BackColor = Color.PaleTurquoise;
         }
         private void btnCapNhat_Click(object sender, EventArgs e)
@@ -372,7 +439,7 @@ namespace TuDienChuyenNganhCyberSecurity
             panelLoc.Visible = dgvDSTU.Enabled = btnTraCuu.Enabled = btnThem.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnThoat.Enabled = false;
             txtGhiChu.ReadOnly = false;
             txtNoiDung.ReadOnly = false;
-            lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = true;
+            panelFormatText.Visible = lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = true;
             txtNoiDung.BackColor = txtGhiChu.BackColor = Color.PaleTurquoise;
         }
 
@@ -432,7 +499,7 @@ namespace TuDienChuyenNganhCyberSecurity
                     txtNoiDung.ReadOnly = true;
                     panelLoc.Visible = dgvDSTU.Enabled = btnTraCuu.Enabled = btnCapNhat.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnThoat.Enabled = true;
                     txtNoiDung.BackColor = txtGhiChu.BackColor = SystemColors.GradientInactiveCaption;
-                    lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = false;
+                    panelFormatText.Visible = lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = false;
                 }
                 catch (SQLiteException ex)
                 {
@@ -498,7 +565,7 @@ namespace TuDienChuyenNganhCyberSecurity
                     txtNoiDung.ReadOnly = true;
                     panelLoc.Visible = dgvDSTU.Enabled = btnTraCuu.Enabled = btnThem.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnThoat.Enabled = true;
                     txtNoiDung.BackColor = txtGhiChu.BackColor = SystemColors.GradientInactiveCaption;
-                    lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = false;
+                    panelFormatText.Visible = lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = false;
                     if (isSearching)
                     {
                         btnLuu.Enabled = false;
@@ -566,11 +633,29 @@ namespace TuDienChuyenNganhCyberSecurity
                     string clipboardText = Clipboard.GetText();
 
                     // Đã cập nhật: Cấu hình font Times New Roman, Size 12, FontStyle.Regular cho đoạn sắp dán
-                    txtNoiDung.SelectionFont = new Font("Times New Roman", 12, FontStyle.Regular);
+                    txtNoiDung.SelectionFont = new Font("Times New Roman", 13, FontStyle.Regular);
 
                     // Chèn đoạn text vào
                     txtNoiDung.SelectedText = clipboardText;
                 }
+            }
+            if (e.Control && e.KeyCode == Keys.B)
+            {
+                e.SuppressKeyPress = true; // Chặn tiếng "bíp" của hệ thống Windows
+
+                btnBold.PerformClick();    // Gọi lại sự kiện Click của nút bấm
+            }
+            if (e.Control && e.KeyCode == Keys.U)
+            {
+                e.SuppressKeyPress = true; // Chặn tiếng "bíp" của hệ thống Windows
+
+                btnUnderline.PerformClick();    // Gọi lại sự kiện Click của nút bấm
+            }
+            if (e.Control && e.KeyCode == Keys.I)
+            {
+                e.SuppressKeyPress = true; // Chặn tiếng "bíp" của hệ thống Windows
+
+                btnItalic.PerformClick();    // Gọi lại sự kiện Click của nút bấm
             }
         }
 
@@ -584,12 +669,30 @@ namespace TuDienChuyenNganhCyberSecurity
                 {
                     string clipboardText = Clipboard.GetText();
 
-                    // Đã cập nhật: Cấu hình font Times New Roman, Size 12, FontStyle.Regular cho đoạn sắp dán
-                    txtGhiChu.SelectionFont = new Font("Times New Roman", 12, FontStyle.Regular);
+                    // Đã cập nhật: Cấu hình font Times New Roman, Size 13, FontStyle.Regular cho đoạn sắp dán
+                    txtGhiChu.SelectionFont = new Font("Times New Roman", 13, FontStyle.Regular);
 
                     // Chèn đoạn text vào
                     txtGhiChu.SelectedText = clipboardText;
                 }
+            }
+            if (e.Control && e.KeyCode == Keys.B)
+            {
+                e.SuppressKeyPress = true; // Chặn tiếng "bíp" của hệ thống Windows
+
+                btnBold.PerformClick();    // Gọi lại sự kiện Click của nút bấm
+            }
+            if (e.Control && e.KeyCode == Keys.U)
+            {
+                e.SuppressKeyPress = true; // Chặn tiếng "bíp" của hệ thống Windows
+
+                btnUnderline.PerformClick();    // Gọi lại sự kiện Click của nút bấm
+            }
+            if (e.Control && e.KeyCode == Keys.I)
+            {
+                e.SuppressKeyPress = true; // Chặn tiếng "bíp" của hệ thống Windows
+
+                btnItalic.PerformClick();    // Gọi lại sự kiện Click của nút bấm
             }
         }
 
@@ -639,7 +742,7 @@ namespace TuDienChuyenNganhCyberSecurity
 
         private void cmbNgaySua_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if(cmbNgaySua.SelectedIndex == 0)
+            if (cmbNgaySua.SelectedIndex == 0)
             {
                 bds_dstu.RemoveSort();
             }
@@ -669,6 +772,146 @@ namespace TuDienChuyenNganhCyberSecurity
                 bds_dstu.Sort = "CreatedDate DESC";
             }
             cmbNgaySua.SelectedIndex = 0;
+        }
+
+        private void btnColorMenu_Click(object sender, EventArgs e)
+        {
+            colorMenu.Show(btnColorMenu, new Point(0, btnColorMenu.Height));
+        }
+
+        private void btnMoreColors_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog dlg = new ColorDialog())
+            {
+                if (dlg.ShowDialog() != DialogResult.Cancel)
+                {
+                    ChangeColor(dlg.Color);
+                }
+            }
+        }
+
+        private void ChangeColor(Color selectedColor)
+        {
+            // Đổi màu chữ của chính nút bấm để báo hiệu màu đang chọn
+            btnShowColor.BackColor = selectedColor;
+            if (txtGhiChu.SelectionLength > 0)
+            {
+                // Chỉ đổi màu đoạn văn bản đang được chọn
+                txtGhiChu.SelectionColor = selectedColor;
+            }
+            else if (txtNoiDung.SelectionLength > 0)
+            {
+
+                txtNoiDung.SelectionColor = selectedColor;
+            }
+            else
+            {
+                // Nếu không bôi đen đoạn nào, màu này sẽ áp dụng cho các chữ gõ tiếp theo
+                txtNoiDung.SelectionColor = txtGhiChu.SelectionColor = selectedColor;
+            }
+        }
+
+        private void btnShowColor_Click(object sender, EventArgs e)
+        {
+            if (txtGhiChu.SelectionLength > 0)
+            {
+                // Chỉ đổi màu đoạn văn bản đang được chọn
+                txtGhiChu.SelectionColor = btnShowColor.BackColor;
+            }
+            else if (txtNoiDung.SelectionLength > 0)
+            {
+                txtNoiDung.SelectionColor = btnShowColor.BackColor;
+            }
+        }
+
+        private void btnBold_Click(object sender, EventArgs e)
+        {
+            // Trường hợp 1: Người dùng đang bôi đen bên ô Ghi Chú
+            if (txtGhiChu.SelectionLength > 0)
+            {
+                Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
+                txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Bold);
+            }
+            // Trường hợp 2: Người dùng đang bôi đen bên ô Nội Dung
+            else if (txtNoiDung.SelectionLength > 0)
+            {
+                Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font; // Sửa lỗi lấy nhầm font của txtGhiChu
+                txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Bold);
+            }
+            // Trường hợp 3: Không ô nào bôi đen (Áp dụng cho ô đang được con trỏ chuột nhắm vào - Focus)
+            else
+            {
+                if (txtGhiChu.Focused)
+                {
+                    Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
+                    txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Bold);
+                }
+                else if (txtNoiDung.Focused)
+                {
+                    Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font;
+                    txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Bold);
+                }
+            }
+        }
+
+        private void btnUnderline_Click(object sender, EventArgs e)
+        {
+            // Trường hợp 1: Người dùng đang bôi đen bên ô Ghi Chú
+            if (txtGhiChu.SelectionLength > 0)
+            {
+                Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
+                txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Underline);
+            }
+            // Trường hợp 2: Người dùng đang bôi đen bên ô Nội Dung
+            else if (txtNoiDung.SelectionLength > 0)
+            {
+                Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font; // Sửa lỗi lấy nhầm font của txtGhiChu
+                txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Underline);
+            }
+            // Trường hợp 3: Không ô nào bôi đen (Áp dụng cho ô đang được con trỏ chuột nhắm vào - Focus)
+            else
+            {
+                if (txtGhiChu.Focused)
+                {
+                    Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
+                    txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Underline);
+                }
+                else if (txtNoiDung.Focused)
+                {
+                    Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font;
+                    txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Underline);
+                }
+            }
+        }
+
+        private void btnItalic_Click(object sender, EventArgs e)
+        {
+            // Trường hợp 1: Người dùng đang bôi đen bên ô Ghi Chú
+            if (txtGhiChu.SelectionLength > 0)
+            {
+                Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
+                txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Italic);
+            }
+            // Trường hợp 2: Người dùng đang bôi đen bên ô Nội Dung
+            else if (txtNoiDung.SelectionLength > 0)
+            {
+                Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font; // Sửa lỗi lấy nhầm font của txtGhiChu
+                txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Italic);
+            }
+            // Trường hợp 3: Không ô nào bôi đen (Áp dụng cho ô đang được con trỏ chuột nhắm vào - Focus)
+            else
+            {
+                if (txtGhiChu.Focused)
+                {
+                    Font currentFont = txtGhiChu.SelectionFont ?? txtGhiChu.Font;
+                    txtGhiChu.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Italic);
+                }
+                else if (txtNoiDung.Focused)
+                {
+                    Font currentFont = txtNoiDung.SelectionFont ?? txtNoiDung.Font;
+                    txtNoiDung.SelectionFont = new Font(currentFont, currentFont.Style ^ FontStyle.Italic);
+                }
+            }
         }
     }
 }
