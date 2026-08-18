@@ -1,4 +1,3 @@
-using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Data.SQLite;
 namespace TuDienChuyenNganhCyberSecurity
@@ -7,8 +6,9 @@ namespace TuDienChuyenNganhCyberSecurity
     {
         DataTable dtOriginal = new DataTable(); // Chứa toàn bộ dữ liệu gốc
         int currentPage = 1;  // Trang hiện tại
-        int pageSize = 30;    // Số dòng trên một trang
+        readonly int pageSize = 30;    // Số dòng trên một trang
         int totalPages = 1;   // Tổng số trang
+        string kieuSapXep = "";
         public static BindingSource bds_dscmb = new BindingSource();
         public static BindingSource bds_dstu = new BindingSource();
         public static BindingSource bds_dslinhvuc = new BindingSource();
@@ -55,11 +55,11 @@ namespace TuDienChuyenNganhCyberSecurity
                         cmbTuDayDu.DataSource = bds_dscmb;
                         cmbTuDayDu.DisplayMember = "TuDayDu";
                         cmbTuDayDu.ValueMember = "ID";
-                        cmbTuDayDu.SelectedIndex = 0;
+                        cmbTuDayDu.SelectedIndex = -1;
                         cmbTuVietTat.DataSource = bds_dscmb;
                         cmbTuVietTat.DisplayMember = "TuVietTat";
                         cmbTuVietTat.ValueMember = "ID";
-                        cmbTuVietTat.SelectedIndex = 0;
+                        cmbTuVietTat.SelectedIndex = -1;
                         dgvDSTU.DataSource = bds_dstu;
                     }
                     using (var cmd2 = new SQLiteCommand(query2, connection))
@@ -176,15 +176,15 @@ namespace TuDienChuyenNganhCyberSecurity
                 }
                 if (isSearching)
                 {
-                    position = cmbTuDayDu.SelectedIndex;
                     btnTraCuu.Text = "Tra cứu";
                     lbTuDayDu.Visible = cmbTuDayDu.Visible = lbTuVietTat.Visible = cmbTuVietTat.Visible = false;
                     btnThem.Enabled = btnLuu.Enabled = btnXoa.Enabled = dgvDSTU.Enabled = true;
                     isSearching = false;
+                    panelLoc.Visible = true;
                 }
                 else
                 {
-                    position = cmbTuDayDu.SelectedIndex;
+                    panelLoc.Visible = false;
                     isSearching = true;
                     btnTraCuu.Text = "Kết thúc tra cứu";
                     lbTuDayDu.Visible = cmbTuDayDu.Visible = lbTuVietTat.Visible = cmbTuVietTat.Visible = true;
@@ -240,6 +240,9 @@ namespace TuDienChuyenNganhCyberSecurity
             cmbTuDayDu.SelectedIndex = cmbTuVietTat.SelectedIndex;
         }
 
+
+
+
         private void cmbTuDayDu_Leave(object sender, EventArgs e)
         {
             int index = cmbTuDayDu.FindStringExact(cmbTuDayDu.Text.Trim());
@@ -247,6 +250,10 @@ namespace TuDienChuyenNganhCyberSecurity
             {
                 cmbTuDayDu.SelectedIndex = index;
                 cmbTuVietTat.SelectedIndex = index;
+                DataRowView row = bds_dscmb[index] as DataRowView;
+                GanNoiDungRichTextBox(txtNoiDung, row["NoiDung"]);
+                GanNoiDungRichTextBox(txtGhiChu, row["GhiChu"]);
+                this.BeginInvoke(new Action(() => { this.ActiveControl = null; }));
             }
             else
             {
@@ -262,6 +269,10 @@ namespace TuDienChuyenNganhCyberSecurity
             {
                 cmbTuDayDu.SelectedIndex = index;
                 cmbTuVietTat.SelectedIndex = index;
+                DataRowView row = bds_dscmb[index] as DataRowView;
+                GanNoiDungRichTextBox(txtNoiDung, row["NoiDung"]);
+                GanNoiDungRichTextBox(txtGhiChu, row["GhiChu"]);
+                this.BeginInvoke(new Action(() => { this.ActiveControl = null; }));
             }
             else
             {
@@ -290,17 +301,18 @@ namespace TuDienChuyenNganhCyberSecurity
                     using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
                     {
                         SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
+                        dtOriginal.Clear();
                         da.Fill(dtOriginal);
                         DisplayPage(1);
                         bds_dscmb.DataSource = dtOriginal;
                         cmbTuDayDu.DataSource = bds_dscmb;
                         cmbTuDayDu.DisplayMember = "TuDayDu";
                         cmbTuDayDu.ValueMember = "ID";
-                        cmbTuDayDu.SelectedIndex = position;
+                        cmbTuDayDu.SelectedIndex = -1;
                         cmbTuVietTat.DataSource = bds_dscmb;
                         cmbTuVietTat.DisplayMember = "TuVietTat";
                         cmbTuVietTat.ValueMember = "ID";
-                        cmbTuVietTat.SelectedIndex = position;
+                        cmbTuVietTat.SelectedIndex = -1;
                         if (position != -1)
                         {
                             DataRowView row = bds_dstu[position] as DataRowView;
@@ -369,24 +381,23 @@ namespace TuDienChuyenNganhCyberSecurity
             lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = false;
             if (position != -1)
             {
-                cmbTuDayDu.SelectedIndex = position;
-                cmbTuVietTat.SelectedIndex = position;
-                DataRowView row = bds_dstu[cmbTuDayDu.SelectedIndex] as DataRowView;
+                DataRowView row = bds_dstu[position] as DataRowView;
                 GanNoiDungRichTextBox(txtNoiDung, row["NoiDung"]);
                 GanNoiDungRichTextBox(txtGhiChu, row["GhiChu"]);
             }
             else
             {
-                cmbTuDayDu.SelectedIndex = position;
-                cmbTuVietTat.SelectedIndex = position;
                 txtNoiDung.Clear();
                 txtGhiChu.Clear();
             }
+            cmbTuDayDu.SelectedIndex = -1;
+            cmbTuVietTat.SelectedIndex = -1;
             dgvDSTU.Enabled = btnTraCuu.Enabled = btnThem.Enabled = btnCapNhat.Enabled = btnLuu.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnPhucHoi.Enabled = btnThoat.Enabled = true;
             if (isSearching)
             {
                 lbTuDayDu.Visible = cmbTuDayDu.Visible = lbTuVietTat.Visible = cmbTuVietTat.Visible = false;
                 btnTraCuu.Text = "Tra cứu";
+                panelLoc.Visible = true;
             }
             if (isAdd || isUpdate)
             {
@@ -406,7 +417,7 @@ namespace TuDienChuyenNganhCyberSecurity
             }
             if (!isAdd)
             {
-                position = cmbTuDayDu.SelectedIndex;
+                position = bds_dstu.Position;
                 txtNoiDung.Clear();
                 txtGhiChu.Clear();
                 cmbTuVietTat.Focus();
@@ -428,7 +439,7 @@ namespace TuDienChuyenNganhCyberSecurity
                 MessageBox.Show("Đang ở chế độ thêm. Vui lòng hoàn tất hoặc hủy bỏ trước khi cập nhật.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (cmbTuVietTat.SelectedIndex == -1 || cmbTuDayDu.SelectedIndex == -1)
+            if (isSearching && (cmbTuVietTat.SelectedIndex == -1 || cmbTuDayDu.SelectedIndex == -1))
             {
                 MessageBox.Show("Vui lòng chọn từ cần cập nhật.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -437,11 +448,18 @@ namespace TuDienChuyenNganhCyberSecurity
             {
                 btnLuu.Enabled = true;
                 cmbTuDayDu.Visible = cmbTuVietTat.Visible = false;
+                DataRowView row = bds_dscmb[bds_dscmb.Position] as DataRowView;
+                tuviettat = txtTuVietTat.Text = row["TUVIETTAT"].ToString().Trim();
+                tudaydu = txtTuDayDu.Text = row["TUDAYDU"].ToString().Trim();
+                cmbLinhVuc1.SelectedValue = row["LINHVUC"];
             }
-            DataRowView row = bds_dstu[bds_dstu.Position] as DataRowView;
-            tudaydu = txtTuDayDu.Text = row["TUDAYDU"].ToString().Trim();
-            tuviettat = txtTuVietTat.Text = row["TUVIETTAT"].ToString().Trim();
-            cmbLinhVuc1.SelectedValue = row["LINHVUC"];
+            else
+            {
+                DataRowView row = bds_dstu[bds_dstu.Position] as DataRowView;
+                tuviettat = txtTuVietTat.Text = row["TUVIETTAT"].ToString().Trim();
+                tudaydu = txtTuDayDu.Text = row["TUDAYDU"].ToString().Trim();
+                cmbLinhVuc1.SelectedValue = row["LINHVUC"];
+            }
             isUpdate = true;
             panelLoc.Visible = dgvDSTU.Enabled = btnTraCuu.Enabled = btnThem.Enabled = btnTaiLai.Enabled = btnXoa.Enabled = btnThoat.Enabled = false;
             txtGhiChu.ReadOnly = false;
@@ -539,31 +557,62 @@ namespace TuDienChuyenNganhCyberSecurity
                     {
                         string query = "UPDATE TUDIEN SET TUVIETTAT = @TUVIETTAT, TUDAYDU = @TUDAYDU, NOIDUNG = @NOIDUNG, GHICHU = @GHICHU, LINHVUC = @LINHVUC WHERE ID = @ID";
                         connection.Open();
-                        using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
+                        if (isSearching)
                         {
-                            DataRowView row = bds_dstu[bds_dstu.Position] as DataRowView;
-                            cmd.Parameters.AddWithValue("@ID", row["ID"]);
-                            cmd.Parameters.AddWithValue("@TUVIETTAT", txtTuVietTat.Text.Trim());
-                            cmd.Parameters.AddWithValue("@TUDAYDU", txtTuDayDu.Text.Trim());
-                            if (Program.KiemTraCoDinhDang(txtNoiDung))
+                            using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
                             {
-                                cmd.Parameters.AddWithValue("@NOIDUNG", txtNoiDung.Rtf);
+                                DataRowView row = bds_dscmb[bds_dscmb.Position] as DataRowView;
+                                cmd.Parameters.AddWithValue("@ID", row["ID"]);
+                                cmd.Parameters.AddWithValue("@TUVIETTAT", txtTuVietTat.Text.Trim());
+                                cmd.Parameters.AddWithValue("@TUDAYDU", txtTuDayDu.Text.Trim());
+                                if (Program.KiemTraCoDinhDang(txtNoiDung))
+                                {
+                                    cmd.Parameters.AddWithValue("@NOIDUNG", txtNoiDung.Rtf);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue("@NOIDUNG", txtNoiDung.Text.Trim());
+                                }
+                                if (Program.KiemTraCoDinhDang(txtGhiChu))
+                                {
+                                    cmd.Parameters.AddWithValue("@GHICHU", txtGhiChu.Rtf);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue("@GHICHU", txtGhiChu.Text.Trim());
+                                }
+                                cmd.Parameters.AddWithValue("@LINHVUC", cmbLinhVuc1.Text.Trim());
+                                cmd.ExecuteNonQuery();
                             }
-                            else
-                            {
-                                cmd.Parameters.AddWithValue("@NOIDUNG", txtNoiDung.Text.Trim());
-                            }
-                            if (Program.KiemTraCoDinhDang(txtGhiChu))
-                            {
-                                cmd.Parameters.AddWithValue("@GHICHU", txtGhiChu.Rtf);
-                            }
-                            else
-                            {
-                                cmd.Parameters.AddWithValue("@GHICHU", txtGhiChu.Text.Trim());
-                            }
-                            cmd.Parameters.AddWithValue("@LINHVUC", cmbLinhVuc1.Text.Trim());
-                            cmd.ExecuteNonQuery();
                         }
+                        else
+                        {
+                            using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
+                            {
+                                DataRowView row = bds_dstu[bds_dstu.Position] as DataRowView;
+                                cmd.Parameters.AddWithValue("@ID", row["ID"]);
+                                cmd.Parameters.AddWithValue("@TUVIETTAT", txtTuVietTat.Text.Trim());
+                                cmd.Parameters.AddWithValue("@TUDAYDU", txtTuDayDu.Text.Trim());
+                                if (Program.KiemTraCoDinhDang(txtNoiDung))
+                                {
+                                    cmd.Parameters.AddWithValue("@NOIDUNG", txtNoiDung.Rtf);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue("@NOIDUNG", txtNoiDung.Text.Trim());
+                                }
+                                if (Program.KiemTraCoDinhDang(txtGhiChu))
+                                {
+                                    cmd.Parameters.AddWithValue("@GHICHU", txtGhiChu.Rtf);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue("@GHICHU", txtGhiChu.Text.Trim());
+                                }
+                                cmd.Parameters.AddWithValue("@LINHVUC", cmbLinhVuc1.Text.Trim());
+                                cmd.ExecuteNonQuery();
+                            }
+                        } 
                     }
                     MessageBox.Show("Cập nhật từ thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     isUpdate = false;
@@ -575,8 +624,10 @@ namespace TuDienChuyenNganhCyberSecurity
                     panelFormatText.Visible = lbLinhVuc.Visible = cmbLinhVuc1.Visible = lbTuDayDu.Visible = txtTuDayDu.Visible = lbTuVietTat.Visible = txtTuVietTat.Visible = false;
                     if (isSearching)
                     {
-                        btnLuu.Enabled = false;
+                        panelLoc.Visible = false;
+                        btnXoa.Enabled = btnThem.Enabled = btnLuu.Enabled = false;
                         lbTuDayDu.Visible = lbTuVietTat.Visible = cmbTuDayDu.Visible = cmbTuVietTat.Visible = true;
+                        dgvDSTU.Enabled = false;
                     }
                 }
                 catch (SQLiteException ex)
@@ -599,22 +650,16 @@ namespace TuDienChuyenNganhCyberSecurity
                 MessageBox.Show("Đang ở chế độ cập nhật. Vui lòng hoàn tất hoặc hủy bỏ trước khi xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (string.IsNullOrWhiteSpace(cmbTuDayDu.Text) || string.IsNullOrWhiteSpace(cmbTuVietTat.Text))
-            {
-                MessageBox.Show("Vui lòng chọn từ để xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
             if (MessageBox.Show("Bạn có chắc chắn muốn xóa từ này không? Hành động này không thể hoàn tác!", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 try
                 {
-                    position = cmbTuDayDu.SelectedIndex;
                     using (var connection = new SQLiteConnection(Program.connectionString))
                     {
                         string query = "DELETE FROM TUDIEN WHERE ID = @ID";
                         using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
                         {
-                            DataRowView row = bds_dstu[position] as DataRowView;
+                            DataRowView row = bds_dstu[bds_dstu.Position] as DataRowView;
                             cmd.Parameters.AddWithValue("@ID", row["ID"]);
                             cmd.ExecuteNonQuery();
                         }
@@ -703,22 +748,6 @@ namespace TuDienChuyenNganhCyberSecurity
             }
         }
 
-        //private void btnLoc_Click(object sender, EventArgs e)
-        //{
-        //    if (cmbLinhVuc.SelectedIndex != -1 && Program.ComboBoxCoGiaTri(cmbLinhVuc, "LINHVUC", cmbLinhVuc.Text.Trim()))
-        //    {
-        //        linhvuc = cmbLinhVuc.Text.Trim();
-        //        if (cmbLinhVuc.SelectedValue.ToString() == "Tất cả")
-        //        {
-        //            bds_dstu.RemoveFilter();
-        //        }
-        //        else
-        //        {
-        //            bds_dstu.Filter = $"LinhVuc = '{cmbLinhVuc.SelectedValue}'";
-        //        }
-        //    }
-        //}
-
         private void dgvDSTU_SelectionChanged(object sender, EventArgs e)
         {
             if (isLoading) return;
@@ -735,15 +764,7 @@ namespace TuDienChuyenNganhCyberSecurity
         {
             if (cmbLinhVuc.SelectedIndex != -1 && Program.ComboBoxCoGiaTri(cmbLinhVuc, "LINHVUC", cmbLinhVuc.Text.Trim()))
             {
-                linhvuc = cmbLinhVuc.Text.Trim();
-                if (cmbLinhVuc.SelectedValue.ToString() == "Tất cả")
-                {
-                    bds_dstu.RemoveFilter();
-                }
-                else
-                {
-                    bds_dstu.Filter = $"LinhVuc = '{cmbLinhVuc.SelectedValue}'";
-                }
+                DisplayPage(1);
             }
         }
 
@@ -751,34 +772,36 @@ namespace TuDienChuyenNganhCyberSecurity
         {
             if (cmbNgaySua.SelectedIndex == 0)
             {
-                bds_dstu.RemoveSort();
+                kieuSapXep = "";
             }
             else if (cmbNgaySua.SelectedIndex == 1)
             {
-                bds_dstu.Sort = "ModifiedDate ASC";
+                kieuSapXep = "ModifiedDate ASC";
             }
             else
             {
-                bds_dstu.Sort = "ModifiedDate DESC";
+                kieuSapXep = "ModifiedDate DESC";
             }
             cmbNgayTao.SelectedIndex = 0;
+            DisplayPage(1);
         }
 
         private void cmbNgayTao_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (cmbNgayTao.SelectedIndex == 0)
             {
-                bds_dstu.RemoveSort();
+                kieuSapXep = "";
             }
             else if (cmbNgayTao.SelectedIndex == 1)
             {
-                bds_dstu.Sort = "CreatedDate ASC";
+                kieuSapXep = "CreatedDate ASC";
             }
             else
             {
-                bds_dstu.Sort = "CreatedDate DESC";
+                kieuSapXep = "CreatedDate DESC";
             }
             cmbNgaySua.SelectedIndex = 0;
+            DisplayPage(1);
         }
 
         private void btnColorMenu_Click(object sender, EventArgs e)
@@ -881,19 +904,31 @@ namespace TuDienChuyenNganhCyberSecurity
         {
             if (dtOriginal == null || dtOriginal.Rows.Count == 0) return;
 
-            // 1. Tính tổng số trang
-            totalPages = (int)Math.Ceiling((double)dtOriginal.Rows.Count / pageSize);
+            //Khởi tạo DataView từ DataTable gốc để Lọc và Sắp xếp
+            DataView dataView = new DataView(dtOriginal);
+            //Xử lý chức năng LỌC (Filter) theo cột Lĩnh Vực
+            if (cmbLinhVuc.SelectedIndex != -1 && cmbLinhVuc.SelectedValue.ToString() != "Tất cả")
+            {
+                dataView.RowFilter = $"LinhVuc = '{cmbLinhVuc.SelectedValue}'";
+            }
+            else
+            {
+                dataView.RowFilter = string.Empty; // Không lọc nếu chọn "Tất cả"
+            }
 
-            // 2. Kiểm tra giới hạn trang
-            if (page < 1) page = 1;
-            if (page > totalPages) page = totalPages;
-            currentPage = page;
+            dataView.Sort = kieuSapXep;
+
+            DataTable dtAfterFilterAndSort = dataView.ToTable();
+
+            
+
+            
 
             // 3. Dùng LINQ lấy dữ liệu của trang hiện tại
-            var pageRows = dtOriginal.AsEnumerable()
+            var pageRows = dtAfterFilterAndSort.AsEnumerable()
                                      .Skip((currentPage - 1) * pageSize)
                                      .Take(pageSize);
-
+            
             // 4. Tạo DataTable mới cho trang này và gán vào BindingSource
             if (pageRows.Any())
             {
@@ -904,8 +939,13 @@ namespace TuDienChuyenNganhCyberSecurity
             {
                 bds_dstu.DataSource = dtOriginal.Clone(); // Trả về bảng trống nếu không có dữ liệu
             }
-
-            // 5. Cập nhật giao diện (Ví dụ: "Trang 1 / 10")
+            // Tính tổng số trang
+            totalPages = (int)Math.Ceiling((double)dtAfterFilterAndSort.Rows.Count / pageSize);
+            // Kiểm tra giới hạn trang
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            currentPage = page;
+            // Cập nhật giao diện (Ví dụ: "Trang 1 / 10")
             txtPage.Text = $"{currentPage}/{totalPages}";
         }
 
@@ -940,12 +980,12 @@ namespace TuDienChuyenNganhCyberSecurity
 
         private void txtPage_Leave(object sender, EventArgs e)
         {
-            if(!int.TryParse(txtPage.Text, out int targetPage))
+            if (!int.TryParse(txtPage.Text, out int targetPage))
             {
                 txtPage.Text = $"{currentPage}/{totalPages}";
                 return;
             }
-            if(targetPage < 1 || targetPage > totalPages)
+            if (targetPage < 1 || targetPage > totalPages)
             {
                 txtPage.Text = $"{currentPage}/{totalPages}";
                 return;
@@ -953,6 +993,24 @@ namespace TuDienChuyenNganhCyberSecurity
             if (targetPage != currentPage)
             {
                 DisplayPage(targetPage);
+            }
+        }
+
+        private void cmbTuVietTat_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Tắt tiếng bíp
+                this.ActiveControl = null; // Ép Form bỏ chọn Box -> Kích hoạt sự kiện Leave bên dưới
+            }
+        }
+
+        private void cmbTuDayDu_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Tắt tiếng bíp
+                this.ActiveControl = null; // Ép Form bỏ chọn Box -> Kích hoạt sự kiện Leave bên dưới
             }
         }
     }

@@ -344,6 +344,7 @@
             txtTuDayDu.Size = new Size(579, 29);
             txtTuDayDu.TabIndex = 2;
             txtTuDayDu.Visible = false;
+            
             // 
             // txtTuVietTat
             // 
@@ -383,6 +384,7 @@
             cmbTuVietTat.TabIndex = 1;
             cmbTuVietTat.SelectionChangeCommitted += cmbTuVietTat_SelectionChangeCommitted;
             cmbTuVietTat.Leave += cmbTuVietTat_Leave;
+            cmbTuVietTat.KeyDown += cmbTuVietTat_KeyDown;
             // 
             // cmbTuDayDu
             // 
@@ -393,6 +395,7 @@
             cmbTuDayDu.TabIndex = 2;
             cmbTuDayDu.SelectionChangeCommitted += cmbTuDayDu_SelectionChangeCommitted;
             cmbTuDayDu.Leave += cmbTuDayDu_Leave;
+            cmbTuDayDu.KeyDown += cmbTuDayDu_KeyDown;
             // 
             // label5
             // 
